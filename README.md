@@ -11,6 +11,7 @@ This project is a Dungeons and Dragons software tool that helps me and my friend
 
 ## Features
 
+- [] User authentication
 - [] Basic character creation
 - [] Bonds
 - [] Equipment
