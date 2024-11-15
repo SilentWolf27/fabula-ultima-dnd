@@ -6,7 +6,16 @@ import { getServerSupabaseClient } from "@/utils/supabase/serverClient";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-export async function loginAction(form: FormData) {
+export interface LoginState {
+  message: string | null;
+  email?: string;
+  password?: string;
+}
+
+export async function loginAction(
+  state: LoginState,
+  form: FormData
+): Promise<LoginState> {
   const client = await getServerSupabaseClient();
 
   const email = form.get("email") as string;
@@ -14,13 +23,23 @@ export async function loginAction(form: FormData) {
 
   const loginData = { email, password };
 
-  validateSchema(loginData, createLoginSchema);
+  const valResult = validateSchema(loginData, createLoginSchema);
+
+  if (!valResult.success) {
+    return {
+      ...loginData,
+      message: valResult.error,
+    };
+  }
 
   const { error } = await client.auth.signInWithPassword(loginData);
 
   if (error) {
     console.error("Error logging in:", error);
-    throw new Error(error.message);
+    return {
+      ...loginData,
+      message: "Usuario o contraseña incorrectos",
+    };
   }
 
   revalidatePath("/", "layout");
