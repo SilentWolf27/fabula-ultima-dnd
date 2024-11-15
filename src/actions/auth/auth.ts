@@ -1,10 +1,10 @@
 "use server";
 
-import { validateSchema } from "@/schemas";
 import { createLoginSchema } from "@/schemas/auth/auth";
 import { getServerSupabaseClient } from "@/utils/supabase/serverClient";
-import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
+import { validateSchema } from "@/schemas";
 
 export interface LoginState {
   message: string | null;

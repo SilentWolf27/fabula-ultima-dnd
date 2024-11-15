@@ -1,10 +1,13 @@
 import { ZodError } from "zod";
 
-type CreateSchema = () => Zod.Schema;
+type CreateSchemaCallback = () => Zod.Schema;
 
-export const validateSchema = (data: any, createSchema: CreateSchema) => {
+export const validateSchema = (
+  data: any,
+  createSchemaCallback: CreateSchemaCallback
+) => {
   try {
-    const schema = createSchema();
+    const schema = createSchemaCallback();
     const { success, error } = schema.safeParse(data);
 
     return { success, error: error ? handleZodError(error) : null };

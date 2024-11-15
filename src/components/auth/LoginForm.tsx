@@ -1,9 +1,9 @@
 "use client";
 
 import { loginAction, LoginState } from "@/actions/auth/auth";
-import styles from "@/styles/components/auth/LoginForm.module.css";
-import { ViewIcon, ViewOffSlashIcon } from "hugeicons-react";
 import { useActionState, useState } from "react";
+import { ViewIcon, ViewOffSlashIcon } from "hugeicons-react";
+import styles from "@/styles/components/auth/LoginForm.module.css";
 
 const initialFormState = {
   message: null,
