@@ -11,7 +11,9 @@ This project is a Dungeons and Dragons software tool that helps me and my friend
 
 ## Features
 
-- [] User authentication
+### Players Features
+
+- [X] User authentication
 - [] Basic character creation
 - [] Bonds
 - [] Equipment
@@ -23,5 +25,18 @@ This project is a Dungeons and Dragons software tool that helps me and my friend
 - [] Combat system
 - [] Notes and journal
 - [] Maps
+- [] Export to PDF or other formats
+- [] Real time multiplayer support
 
-When a feature is implemented, the checkbox will be marked with an 'x' and a description of the feature will be added.
+### Dungeon Master Features
+
+- [] Campaign creation
+
+## Feature details
+
+### User authentication
+
+The authentication is done using Supabase Auth. Currently, the only way to register is by the admin manually creating the user in the Supabase dashboard.
+
+- [X] Login using email and password
+- [X] Register using email and password (manually performed by the admin)
