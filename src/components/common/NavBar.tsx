@@ -1,9 +1,9 @@
 "use client";
 
 import { NavBarItem } from "@/interfaces/components/common/Nav";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import styles from "@/styles/components/common/NavBar.module.css";
-import { usePathname } from "next/navigation";
 import {
   Book04Icon,
   Home05Icon,

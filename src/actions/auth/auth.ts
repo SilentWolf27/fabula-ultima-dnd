@@ -12,6 +12,10 @@ export interface LoginState {
   password?: string;
 }
 
+export interface SignOutState {
+  message: string | null;
+}
+
 export async function loginAction(
   state: LoginState,
   form: FormData
@@ -46,13 +50,17 @@ export async function loginAction(
   redirect("/");
 }
 
-export async function logoutAction() {
+export async function signOutAction(
+  state: SignOutState
+): Promise<SignOutState> {
   const client = await getServerSupabaseClient();
   const { error } = await client.auth.signOut({ scope: "local" });
 
   if (error) {
     console.error("Error logging out:", error);
-    throw new Error(error.message);
+    return {
+      message: "Error cerrando sesión",
+    };
   }
   revalidatePath("/", "layout");
   redirect("/login");
