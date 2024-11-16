@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Metamorphous, Lora } from "next/font/google";
 import "./globals.css";
+import { NavBar } from "@/components/common/NavBar";
 
 export const metadata: Metadata = {
   title: "Fabula Ultima App",
@@ -27,7 +28,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body>{children}</body>
+      <body>
+        <div className="main_container">
+          <main className="main">{children}</main>
+          <NavBar />
+        </div>
+      </body>
     </html>
   );
 }

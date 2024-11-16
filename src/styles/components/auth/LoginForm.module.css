@@ -31,7 +31,7 @@
   }
 
   &:focus {
-    outline-color: var(--wisteria-500);
+    outline-color: var(--violet-600);
   }
 }
 
@@ -47,14 +47,14 @@
   top: calc(50% - 12px);
   border: none;
   background-color: transparent;
-  color: var(--wisteria-900);
+  color: var(--violet-600);
 }
 
 .submit_button {
   width: 100%;
   height: auto;
   padding: 8px 16px;
-  background-color: var(--wisteria-600);
+  background-color: var(--violet-600);
   color: var(--neutral-100);
   font-size: 1.5rem;
   font-weight: 700;
@@ -63,12 +63,8 @@
   cursor: pointer;
   transition: background-color 0.3s;
 
-  &:hover {
-    background-color: var(--wisteria-600);
-  }
-
   &:disabled {
-    background-color: var(--wisteria-300);
+    background-color: var(--violet-200);
   }
 }
 

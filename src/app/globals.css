@@ -52,15 +52,15 @@
   --red-800: #991b1b;
   --red-900: #7f1d1d;
 
-  --wisteria-100: #f2f0f7;
-  --wisteria-200: #e7e4f0;
-  --wisteria-300: #d5cde5;
-  --wisteria-400: #beb1d4;
-  --wisteria-500: #a490c2;
-  --wisteria-600: #8b6eab;
-  --wisteria-700: #80649d;
-  --wisteria-800: #6b5483;
-  --wisteria-900: #59466c;
+  --violet-100: #ede9fe;
+  --violet-200: #ddd6fe;
+  --violet-300: #c4b5fd;
+  --violet-400: #a78bfa;
+  --violet-500: #8b5cf6;
+  --violet-600: #7c3aed;
+  --violet-700: #6d28d9;
+  --violet-800: #5b21b6;
+  --violet-900: #4c1d95;
 }
 
 /* Start of CSS Reset */
@@ -122,3 +122,19 @@ html {
 }
 
 /* End of CSS Reset */
+
+.main_container {
+  display: grid;
+  grid-template-areas:
+    "header"
+    "main"
+    "navbar";
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: 1fr;
+  grid-auto-flow: row;
+  min-height: 100dvh;
+}
+
+.main {
+  grid-area: main;
+}
