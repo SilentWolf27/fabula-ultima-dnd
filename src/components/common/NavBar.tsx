@@ -29,13 +29,8 @@ const items: NavBarItem[] = [
     icon: <Book04Icon size={28} />,
   },
   {
-    label: "Configuración",
-    path: "/configuración",
-    icon: <Settings02Icon size={28} />,
-  },
-  {
-    label: "Cuenta",
-    path: "/cuenta",
+    label: "Perfil",
+    path: "/perfil",
     icon: <UserSettings01Icon size={28} />,
   },
 ];
