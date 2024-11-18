@@ -1,5 +1,6 @@
 import { Profile } from "@/interfaces/entity";
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { decode } from "jsonwebtoken";
 
 export const getProfile = async (
   client: SupabaseClient
@@ -12,16 +13,20 @@ export const getProfile = async (
     return null;
   }
 
-  const { data } = await client
-    .from("user_profile")
-    .select("is_dm, username, image");
-  const profile = data ? data[0] : null;
+  const {
+    data: { session },
+  } = await client.auth.getSession();
+
+  if (!session) return null;
+
+  const accessToken = session.access_token;
+  const payload = decode(accessToken) as any;
 
   return {
     id: user.id,
     email: user.email,
-    isDm: profile?.is_dm || false,
-    username: profile?.username || null,
-    image: profile?.image || null,
+    isDm: payload?.is_dm || false,
+    username: payload?.username || null,
+    image: payload?.image || null,
   };
 };
