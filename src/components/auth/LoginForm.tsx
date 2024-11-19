@@ -32,6 +32,7 @@ export const LoginForm = () => {
           className={styles.input}
           placeholder="username@fabula.com"
           defaultValue={formState.email}
+          autoComplete="email"
         />
       </div>
 
@@ -47,6 +48,7 @@ export const LoginForm = () => {
             className={styles.input}
             placeholder={showPassword ? "Contraseña" : "*********"}
             defaultValue={formState.password}
+            autoComplete="current-password"
           />
           <button
             type="button"
