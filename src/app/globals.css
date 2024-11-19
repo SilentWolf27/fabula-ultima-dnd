@@ -123,19 +123,3 @@ html {
 }
 
 /* End of CSS Reset */
-
-.main_container {
-  display: grid;
-  grid-template-areas:
-    "header"
-    "main"
-    "navbar";
-  grid-template-rows: auto 1fr auto;
-  grid-template-columns: 1fr;
-  grid-auto-flow: row;
-  min-height: 100dvh;
-}
-
-.main {
-  grid-area: main;
-}

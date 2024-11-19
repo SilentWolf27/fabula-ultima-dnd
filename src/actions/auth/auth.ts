@@ -47,7 +47,7 @@ export async function loginAction(
   }
 
   revalidatePath("/", "layout");
-  redirect("/");
+  redirect("/dashboard");
 }
 
 export async function signOutAction(

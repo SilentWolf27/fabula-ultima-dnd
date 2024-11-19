@@ -7,7 +7,6 @@ import styles from "@/styles/components/common/NavBar.module.css";
 import {
   Book04Icon,
   Home05Icon,
-  Settings02Icon,
   UserFullViewIcon,
   UserSettings01Icon,
 } from "hugeicons-react";
@@ -15,22 +14,22 @@ import {
 const items: NavBarItem[] = [
   {
     label: "Inicio",
-    path: "/",
+    path: "/dashboard",
     icon: <Home05Icon size={28} />,
   },
   {
     label: "Personajes",
-    path: "/personajes",
+    path: "/dashboard/personajes",
     icon: <UserFullViewIcon size={28} />,
   },
   {
     label: "Campañas",
-    path: "/campañas",
+    path: "/dashboard/campañas",
     icon: <Book04Icon size={28} />,
   },
   {
     label: "Perfil",
-    path: "/perfil",
+    path: "/dashboard/perfil",
     icon: <UserSettings01Icon size={28} />,
   },
 ];
@@ -39,23 +38,21 @@ export const NavBar = () => {
   const currentPath = usePathname();
 
   return (
-    currentPath !== "/login" && (
-      <nav className={styles.navbar}>
-        <ul className={styles.navbar__list}>
-          {items.map((item, index) => (
-            <li
-              key={index}
-              className={`${styles.navbar__item} ${
-                currentPath === item.path ? styles.active : ""
-              }`}>
-              <Link href={item.path} className={styles.navbar__link}>
-                {item.icon ? item.icon : null}
-                <span>{item.label}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    )
+    <nav className={styles.navbar}>
+      <ul className={styles.navbar__list}>
+        {items.map((item, index) => (
+          <li
+            key={index}
+            className={`${styles.navbar__item} ${
+              currentPath === item.path ? styles.active : ""
+            }`}>
+            <Link href={item.path} className={styles.navbar__link}>
+              {item.icon ? item.icon : null}
+              <span>{item.label}</span>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
   );
 };
