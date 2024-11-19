@@ -9,13 +9,13 @@ export const metadata: Metadata = {
     "Fabula Ultima App es una aplicación sin fines de lucro para la facilitación de la creación e interacción de historias de rol.",
 };
 
-export const metamorphous = Metamorphous({
+const metamorphous = Metamorphous<any>({
   weight: "400",
   style: "normal",
   subsets: ["latin"],
 });
 
-export const lora = Lora({
+const lora = Lora({
   weight: ["400", "500", "600", "700"],
   style: "normal",
   subsets: ["latin"],
