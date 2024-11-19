@@ -25,7 +25,7 @@ export const getProfile = async (
   return {
     id: user.id,
     email: user.email,
-    isDm: payload?.is_dm || false,
+    fabulaRole: payload?.fabulaRole || false,
     username: payload?.username || null,
     image: payload?.image || null,
   };

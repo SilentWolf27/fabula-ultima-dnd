@@ -22,7 +22,7 @@ export const AccountInfoCard = async () => {
           />
         )}
         <span className={styles.role_badge}>
-          {profile.isDm ? "Dungeon Master" : "Player"}
+          {profile.fabulaRole === "dm" ? "Dungeon Master" : "Player"}
         </span>
       </div>
 
