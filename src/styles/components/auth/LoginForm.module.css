@@ -26,13 +26,13 @@
   font-size: 1.4rem;
   position: relative;
 
-  ::placeholder {
-    color: var(--neutral-400);
-  }
-
   &:focus {
     outline-color: var(--violet-600);
   }
+}
+
+.input::placeholder {
+  color: var(--neutral-400);
 }
 
 .password_container {
