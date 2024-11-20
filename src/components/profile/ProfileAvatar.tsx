@@ -1,10 +1,10 @@
 import { getProfile } from "@/database/account/profile";
 import { getSupabaseServerClient } from "@/utils/supabase/serverClient";
-import styles from "@/styles/components/account/AccountInfoCard.module.css";
+import styles from "@/styles/components/profile/ProfileAvatar.module.css";
 import Image from "next/image";
 import supabaseLoader from "@/utils/images/loader";
 
-export const AccountInfoCard = async () => {
+export const ProfileAvatar = async () => {
   const client = await getSupabaseServerClient();
   const profile = await getProfile(client);
 
