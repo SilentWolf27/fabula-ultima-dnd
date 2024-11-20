@@ -1,8 +1,7 @@
 import { decode, JwtPayload } from "jsonwebtoken";
-import { getSupabaseClient } from "../supabase/browserClient";
+import { SupabaseClient } from "@supabase/supabase-js";
 
-export const getSupabaseClientAccessToken = async () => {
-  const supabase = getSupabaseClient();
+export const getSupabaseJwtPayload = async (supabase: SupabaseClient) => {
   const {
     data: { session },
   } = await supabase.auth.getSession();

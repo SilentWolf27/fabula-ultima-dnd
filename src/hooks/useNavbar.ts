@@ -1,5 +1,6 @@
 import { NavBarItem } from "@/interfaces/components/common/Nav";
-import { getSupabaseClientAccessToken } from "@/utils/session/session";
+import { getSupabaseJwtPayload } from "@/utils/session/session";
+import { getSupabaseClient } from "@/utils/supabase/browserClient";
 
 import {
   Book04Icon,
@@ -23,8 +24,8 @@ const defaultItems: NavBarItem[] = [
     role: "player",
   },
   {
-    label: "Campañas",
-    path: "/dashboard/campañas",
+    label: "Historias",
+    path: "/dashboard/historias",
     icon: Book04Icon,
     role: "both",
   },
@@ -38,9 +39,10 @@ const defaultItems: NavBarItem[] = [
 
 export const useNavbar = (): { items: NavBarItem[] } => {
   const [items, setItems] = useState<NavBarItem[]>([]);
+  const supabase = getSupabaseClient();
 
   useEffect(() => {
-    getSupabaseClientAccessToken().then((token) => {
+    getSupabaseJwtPayload(supabase).then((token) => {
       if (!token) return;
 
       const role = token.fabulaRole;

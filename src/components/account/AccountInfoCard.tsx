@@ -1,11 +1,11 @@
 import { getProfile } from "@/database/account/profile";
-import { getServerSupabaseClient } from "@/utils/supabase/serverClient";
+import { getSupabaseServerClient } from "@/utils/supabase/serverClient";
 import styles from "@/styles/components/account/AccountInfoCard.module.css";
 import Image from "next/image";
 import supabaseLoader from "@/utils/images/loader";
 
 export const AccountInfoCard = async () => {
-  const client = await getServerSupabaseClient();
+  const client = await getSupabaseServerClient();
   const profile = await getProfile(client);
 
   return profile ? (

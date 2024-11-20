@@ -1,7 +1,7 @@
 "use server";
 
 import { createLoginSchema } from "@/schemas/auth/auth";
-import { getServerSupabaseClient } from "@/utils/supabase/serverClient";
+import { getSupabaseServerClient } from "@/utils/supabase/serverClient";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { validateSchema } from "@/schemas";
@@ -20,7 +20,7 @@ export async function loginAction(
   state: LoginState,
   form: FormData
 ): Promise<LoginState> {
-  const client = await getServerSupabaseClient();
+  const client = await getSupabaseServerClient();
 
   const email = form.get("email") as string;
   const password = form.get("password") as string;
@@ -53,7 +53,7 @@ export async function loginAction(
 export async function signOutAction(
   state: SignOutState
 ): Promise<SignOutState> {
-  const client = await getServerSupabaseClient();
+  const client = await getSupabaseServerClient();
   const { error } = await client.auth.signOut({ scope: "local" });
 
   if (error) {
