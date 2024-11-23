@@ -1,6 +1,6 @@
 export interface Profile {
   id: string;
-  email: string | undefined;
+  email: string | null;
   fabulaRole: ProfileRole;
   username: string | null;
   image: string | null;
