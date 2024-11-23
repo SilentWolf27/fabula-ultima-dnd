@@ -1,0 +1,11 @@
+.container {
+  padding: 32px 24px;
+  min-width: 320px;
+}
+
+.title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 24px;
+    font-family: var(--font-metamorphous);
+}

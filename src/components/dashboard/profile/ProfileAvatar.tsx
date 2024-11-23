@@ -1,6 +1,6 @@
 import { getProfile } from "@/database/account/profile";
 import { getSupabaseServerClient } from "@/utils/supabase/serverClient";
-import styles from "@/styles/components/profile/ProfileAvatar.module.css";
+import styles from "@/styles/components/dashboard/profile/ProfileAvatar.module.css";
 import Image from "next/image";
 import supabaseLoader from "@/utils/images/loader";
 

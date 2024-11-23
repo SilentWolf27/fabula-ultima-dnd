@@ -1,4 +1,4 @@
-import { ProfileAvatar } from "@/components/profile/ProfileAvatar";
+import { ProfileAvatar } from "@/components/dashboard/profile/ProfileAvatar";
 import { SignOutButton } from "@/components/auth/SignOutButton";
 import styles from "@/styles/pages/account/Account.module.css";
 import { ArrowRight01Icon } from "hugeicons-react";

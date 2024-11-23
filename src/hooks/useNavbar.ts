@@ -24,10 +24,16 @@ const defaultItems: NavBarItem[] = [
     role: "player",
   },
   {
+    label: "Mis Historias",
+    path: "/dashboard/mishistorias",
+    icon: Book04Icon,
+    role: "dm",
+  },
+  {
     label: "Historias",
     path: "/dashboard/historias",
     icon: Book04Icon,
-    role: "both",
+    role: "player",
   },
   {
     label: "Perfil",
