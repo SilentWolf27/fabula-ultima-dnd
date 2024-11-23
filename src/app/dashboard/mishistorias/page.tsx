@@ -1,22 +1,23 @@
-import { ItemGrid } from "@/components/common/ItemGrid";
 import { getMasterCampaigns } from "@/database/campaigns/master";
 import { getSupabaseServerClient } from "@/utils/supabase/serverClient";
+import { ItemGrid } from "@/components/common/ItemGrid";
+import { MasterCampaignCard } from "@/components/dashboard/campaign/MasterCampaignCard";
 import styles from "@/styles/pages/dashboard/campaigns.module.css";
 
 export default async function CampaignsPage() {
   const supabase = await getSupabaseServerClient();
 
   const campaigns = await getMasterCampaigns(supabase);
-  console.log(campaigns);
+
   return (
-    <main className={styles.container}>
+    <div className={styles.container}>
       <h2 className={styles.title}>Historias</h2>
 
-      <ItemGrid>
+      <ItemGrid className={styles.items_container}>
         {campaigns.map((campaign) => (
-          <div key={campaign.id}>{campaign.name}</div>
+          <MasterCampaignCard campaign={campaign} key={campaign.id} />
         ))}
       </ItemGrid>
-    </main>
+    </div>
   );
 }

@@ -23,6 +23,7 @@
   min-width: 112px;
   border-radius: 8px;
   user-select: none;
+  background-color: var(--neutral-50);
 
   &.active {
     background-color: var(--violet-100);
