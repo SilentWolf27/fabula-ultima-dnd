@@ -1,13 +1,13 @@
 "use client";
 
-import { MouseEvent, useState } from "react";
+import { Tab } from "@/interfaces/components";
 import styles from "@/styles/components/common/Tab/TabContainer.module.css";
 
 interface Props {
   children?: React.ReactNode;
-  currentTab?: string;
-  onTabChange: (key: string) => void;
-  tabs: { title: string; key: string }[];
+  currentTab: Tab;
+  onTabChange: (tab: Tab) => void;
+  tabs: Tab[];
 }
 
 export const TabContainer = ({
@@ -19,17 +19,18 @@ export const TabContainer = ({
   return (
     <div className={styles.tab_container}>
       <div className={styles.tab_header}>
-        {tabs.map((tab, idx) => (
+        {tabs.map((tab) => (
           <button
             key={tab.key}
             className={`${styles.tab_button} ${
-              currentTab === tab.key ? styles.active : ""
+              currentTab.key === tab.key ? styles.active : ""
             }`}
-            onClick={() => onTabChange(tab.key)}>
+            onClick={() => onTabChange(tab)}>
             {tab.title}
           </button>
         ))}
       </div>
+      <div className={styles.tab_content}>{children}</div>
     </div>
   );
 };
