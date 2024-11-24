@@ -38,8 +38,8 @@ export const MasterCampaignCard = ({ campaign }: Props) => {
   };
 
   const redirectToCampaign = () => {
-    router.push(`/dashboard/campaign/${campaign.id}`);
-  }
+    router.push(`/dashboard/mishistorias/${campaign.id}`);
+  };
 
   return (
     <div className={styles.container} onClick={redirectToCampaign}>

@@ -1,12 +1,16 @@
-import { BasicCampaign } from "@/interfaces/entity";
+import { BasicCampaign, Campaign } from "@/interfaces/entity";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 export const getMasterCampaigns = async (
   supabase: SupabaseClient
 ): Promise<BasicCampaign[]> => {
-  const { data, error } = await supabase.from("campaigns")
-    .select(`id, name, short_description, status, access_type,
-      enrolled_characters:character_campaign(count)`);
+  const { data, error } = await supabase
+    .from("campaigns")
+    .select(
+      `id, name, short_description, status, access_type,
+      enrolled_characters:character_campaign(count)`
+    )
+    .is("deleted_at", null);
   if (error) {
     console.error(error);
     throw new Error("Error al obtener las campañas");
@@ -21,6 +25,27 @@ export const getMasterCampaigns = async (
   }));
 };
 
-export const getAvailableCampaigns = async (supabase: SupabaseClient) => {
-  return [];
+export const getMasterCampaignDetail = async (
+  supabase: SupabaseClient,
+  campaignID: number
+): Promise<Campaign> => {
+  const { data, error } = await supabase
+    .from("campaigns")
+    .select(
+      `name, description, status, access_type,
+      short_description, id, settings, max_players,
+      characters:character_campaign(name)`
+    )
+    .eq("id", `${campaignID}`)
+    .is("deleted_at", null);
+  if (error) {
+    console.error(error);
+    throw new Error("Error al obtener la campaña");
+  }
+
+  if (data.length === 0) {
+    throw new Error("Campaña no encontrada");
+  }
+
+  return data[0];
 };

@@ -7,8 +7,7 @@ export interface Campaign {
   access_type: CampaignAccessType;
   settings: CampaignSettings;
   max_players: number;
-  characters: CampaignCharacter;
-  enrolled_characters: number;
+  characters: CampaignCharacter[];
 }
 
 export interface CampaignSettings {}
