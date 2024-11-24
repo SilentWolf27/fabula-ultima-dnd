@@ -1,0 +1,5 @@
+.container {
+  height: 100%;
+  background-color: var(--neutral-100);
+  padding: 16px 24px;
+}

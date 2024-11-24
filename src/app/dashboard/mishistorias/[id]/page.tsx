@@ -1,5 +1,4 @@
-import { getMasterCampaignDetail } from "@/database/campaigns/master";
-import { getSupabaseServerClient } from "@/utils/supabase/serverClient";
+import { MasterCampaignDetail } from "@/components/dashboard/campaign/MasterCampaignDetail";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -7,9 +6,5 @@ interface Props {
 
 export default async function CampaignDetailPage({ params }: Props) {
   const id = (await params).id;
-
-  const supabase = await getSupabaseServerClient();
-  const campaign = await getMasterCampaignDetail(supabase, parseInt(id));
-  console.log(campaign);
-  return <h1>Campaign Detail Page</h1>;
+  return <MasterCampaignDetail id={id} />;
 }
