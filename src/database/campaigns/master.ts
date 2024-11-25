@@ -37,15 +37,18 @@ export const getMasterCampaignDetail = async (
       characters:character_campaign(name)`
     )
     .eq("id", `${campaignID}`)
-    .is("deleted_at", null);
+    .is("deleted_at", null)
+    .returns<Campaign>()
+    .single();
+
   if (error) {
     console.error(error);
     throw new Error("Error al obtener la campaña");
   }
 
-  if (data.length === 0) {
+  if (!data) {
     throw new Error("Campaña no encontrada");
   }
 
-  return data[0];
+  return data;
 };
