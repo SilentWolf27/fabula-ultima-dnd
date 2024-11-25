@@ -23,14 +23,14 @@ export interface BasicCampaign {
   enrolled_characters?: number;
 }
 
-enum CampaignStatus {
+export enum CampaignStatus {
   HIDDEN = "hidden",
   ACTIVE = "active",
   IN_COURSE = "in_course",
   FINISHED = "finished",
 }
 
-enum CampaignAccessType {
+export enum CampaignAccessType {
   PUBLIC = "public",
   REQUEST = "request",
 }

@@ -28,6 +28,7 @@
 
   &.active {
     border-top-color: var(--violet-500);
+    color: var(--neutral-700);
   }
 }
 .tab_content {

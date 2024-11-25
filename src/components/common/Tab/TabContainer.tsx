@@ -5,17 +5,11 @@ import styles from "@/styles/components/common/Tab/TabContainer.module.css";
 
 interface Props {
   children?: React.ReactNode;
-  currentTab: Tab;
   onTabChange: (tab: Tab) => void;
   tabs: Tab[];
 }
 
-export const TabContainer = ({
-  children,
-  tabs,
-  onTabChange,
-  currentTab,
-}: Props) => {
+export const TabContainer = ({ children, tabs, onTabChange }: Props) => {
   return (
     <div className={styles.tab_container}>
       <div className={styles.tab_header}>
@@ -23,9 +17,10 @@ export const TabContainer = ({
           <button
             key={tab.key}
             className={`${styles.tab_button} ${
-              currentTab.key === tab.key ? styles.active : ""
+              tab.active ? styles.active : ""
             }`}
-            onClick={() => onTabChange(tab)}>
+            onClick={() => onTabChange(tab)}
+            disabled={tab.disabled}>
             {tab.title}
           </button>
         ))}
