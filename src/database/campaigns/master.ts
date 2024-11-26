@@ -41,13 +41,12 @@ export const getMasterCampaignDetail = async (
     .returns<Campaign>()
     .single();
 
-  if (error) {
-    console.error(error);
-    throw new Error("Error al obtener la campaña");
+  if (data === null) {
+    throw new Error("Campaña no encontrada");
   }
 
-  if (!data) {
-    throw new Error("Campaña no encontrada");
+  if (error) {
+    throw new Error("Error al obtener la campaña");
   }
 
   return data;
