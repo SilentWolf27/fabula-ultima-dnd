@@ -34,3 +34,15 @@ export enum CampaignAccessType {
   PUBLIC = "public",
   REQUEST = "request",
 }
+
+export const campaignStatusOptions = [
+  { value: CampaignStatus.HIDDEN, label: "Oculta" },
+  { value: CampaignStatus.ACTIVE, label: "Activa" },
+  { value: CampaignStatus.IN_COURSE, label: "En curso" },
+  { value: CampaignStatus.FINISHED, label: "Finalizada" },
+];
+
+export const campaignAccessTypeOptions = [
+  { value: CampaignAccessType.PUBLIC, label: "Público" },
+  { value: CampaignAccessType.REQUEST, label: "Por solicitud" },
+];

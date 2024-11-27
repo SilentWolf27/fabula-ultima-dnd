@@ -71,13 +71,15 @@ export default function MasterCampaignForm({ campaign }: Props) {
     <div className={styles.container}>
       <TabContainer tabs={tabs} onTabChange={handleTabChange}>
         <div className={styles.form_container}>
-          {currentTab.key === "basic" && (
-            <MasterCampaignBasicInfoForm
-              campaign={formData}
-              updateValue={updateValue}
-              formErrors={formErrors}
-            />
-          )}
+          <div className={styles.form}>
+            {currentTab.key === "basic" && (
+              <MasterCampaignBasicInfoForm
+                campaign={formData}
+                updateValue={updateValue}
+                formErrors={formErrors}
+              />
+            )}
+          </div>
 
           <div className={styles.buttons}>
             <button

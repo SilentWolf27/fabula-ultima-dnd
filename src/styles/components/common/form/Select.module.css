@@ -10,29 +10,19 @@
   color: var(--neutral-800);
 }
 
-.input {
+.select {
   font-size: 1.3rem;
-  padding: 4px 8px;
-  border: 1px solid var(--neutral-600);
+  padding: 8px 16px;
+  border: 1px solid var(--neutral-300);
   border-radius: 4px;
 
-  &::placeholder {
-    color: var(--neutral-400);
-  }
-
   &:focus {
-    outline: 1px solid var(--violet-700);
+    outline: none;
+    border: 1px solid var(--violet-700);
   }
 
-  &.input_error {
-    border: 1px solid var(--red-500);
-    outline: 1px solid var(--red-500);
-  }
-
-  &.textarea {
-    field-sizing: content;
-    max-height: 240px;
-    min-height: 80px;
+  & > option {
+    font-size: 1.3rem;
   }
 }
 

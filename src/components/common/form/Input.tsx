@@ -7,7 +7,7 @@ interface Props {
   name: string;
   onChange: (name: string, value: string, error: string | null) => void;
   placeholder?: string;
-  type?: "text" | "email" | "password" | "number" | "tel";
+  type?: "text" | "email" | "password" | "number" | "tel" | "textarea";
   value: string;
   error?: string | null;
   required?: boolean;
@@ -31,13 +31,16 @@ export const Input = ({
     return null;
   };
 
-  const handleChange: ChangeEventHandler<HTMLInputElement> = ({ target }) => {
+  const handleChange: ChangeEventHandler<
+    HTMLInputElement | HTMLTextAreaElement
+  > = ({ target }) => {
     const { value, name } = target;
 
     const error = checkForErrors(value);
 
     onChange(name, value, error);
   };
+
   return (
     <div className={styles.container}>
       {label && (
@@ -45,16 +48,23 @@ export const Input = ({
           {label}
         </label>
       )}
-      <input
-        className={`${styles.input} ${!!error ? styles.input_error : ""}`}
-        id={name}
-        name={name}
-        onChange={handleChange}
-        placeholder={placeholder}
-        type={type}
-        value={value}
-        required={required}
-      />
+      {type === "textarea" ? (
+        <textarea
+          className={`${styles.input} ${styles.textarea}`}
+          name={name}
+          value={value}
+          onChange={handleChange}
+          placeholder={placeholder}></textarea>
+      ) : (
+        <input
+          className={styles.input}
+          name={name}
+          type={type}
+          value={value}
+          onChange={handleChange}
+          placeholder={placeholder}
+        />
+      )}
 
       {error && (
         <div className={styles.error_container}>

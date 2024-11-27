@@ -7,7 +7,6 @@
 .buttons {
   display: flex;
   justify-content: flex-end;
-  margin-top: 24px;
   width: 100%;
   gap: 16px;
 }
@@ -43,4 +42,22 @@
   &:disabled {
     background-color: var(--violet-300);
   }
+}
+
+.form_container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  height: 100%;
+  flex: 1;
+  overflow-y: auto;
 }
