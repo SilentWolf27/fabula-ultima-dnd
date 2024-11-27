@@ -6,6 +6,7 @@ import { Campaign } from "@/interfaces/entity";
 import styles from "@/styles/components/dashboard/campaign/form/MasterCampaignForm.module.css";
 import { Tab } from "@/interfaces/components";
 import { useMultiStepForm, useTab } from "@/hooks";
+import { ArrowLeft02Icon, ArrowRight01Icon } from "hugeicons-react";
 
 interface Props {
   campaign: Campaign;
@@ -58,13 +59,19 @@ export default function MasterCampaignForm({ campaign }: Props) {
       <TabContainer tabs={tabs} onTabChange={handleTabChange}>
         {tabs[currentStep].key}
         <div className={styles.buttons}>
-          <button onClick={handlePrevStep} disabled={isFirstStep}>
-            Anterior
+          <button
+            onClick={handlePrevStep}
+            disabled={isFirstStep}
+            className={styles.prev_button}>
+            <ArrowLeft02Icon size={20} />
+            Atras
           </button>
           {isLastStep ? (
-            <button>Guardar</button>
+            <button className={styles.next_button}>Guardar</button>
           ) : (
-            <button onClick={handleNextStep}>Siguiente</button>
+            <button onClick={handleNextStep} className={styles.next_button}>
+              Siguiente
+            </button>
           )}
         </div>
       </TabContainer>
