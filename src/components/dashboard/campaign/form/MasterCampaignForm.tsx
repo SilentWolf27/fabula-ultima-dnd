@@ -5,10 +5,10 @@ import { Campaign } from "@/interfaces/entity";
 
 import styles from "@/styles/components/dashboard/campaign/form/MasterCampaignForm.module.css";
 import { Tab } from "@/interfaces/components";
-import { useTab } from "@/hooks";
+import { useMultiStepForm, useTab } from "@/hooks";
 
 interface Props {
-  campaign?: Campaign;
+  campaign: Campaign;
 }
 
 const defaultTabs: Tab[] = [
@@ -22,10 +22,51 @@ export default function MasterCampaignForm({ campaign }: Props) {
     activePrevTabs: true,
   });
 
+  const {
+    currentStep,
+    formData,
+    goToStep,
+    isFirstStep,
+    isLastStep,
+    nextStep,
+    prevStep,
+    updateValue,
+  } = useMultiStepForm<Campaign>(campaign, tabs.length);
+
+  const handleNextStep = () => {
+    const nextTab = tabs[currentStep + 1];
+
+    if (nextTab) {
+      handleTabChange(nextTab);
+    }
+
+    nextStep();
+  };
+
+  const handlePrevStep = () => {
+    const prevTab = tabs[currentStep - 1];
+
+    if (prevTab) {
+      handleTabChange(prevTab);
+    }
+
+    prevStep();
+  };
+
   return (
     <div className={styles.container}>
       <TabContainer tabs={tabs} onTabChange={handleTabChange}>
-        {currentTab.title}
+        {tabs[currentStep].key}
+        <div className={styles.buttons}>
+          <button onClick={handlePrevStep} disabled={isFirstStep}>
+            Anterior
+          </button>
+          {isLastStep ? (
+            <button>Guardar</button>
+          ) : (
+            <button onClick={handleNextStep}>Siguiente</button>
+          )}
+        </div>
       </TabContainer>
     </div>
   );
