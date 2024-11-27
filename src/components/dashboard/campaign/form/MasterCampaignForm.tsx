@@ -7,6 +7,7 @@ import styles from "@/styles/components/dashboard/campaign/form/MasterCampaignFo
 import { Tab } from "@/interfaces/components";
 import { useMultiStepForm, useTab } from "@/hooks";
 import { ArrowLeft02Icon, ArrowRight01Icon } from "hugeicons-react";
+import MasterCampaignBasicInfoForm from "./MasterCampaignBasicInfoForm";
 
 interface Props {
   campaign: Campaign;
@@ -26,7 +27,7 @@ export default function MasterCampaignForm({ campaign }: Props) {
   const {
     currentStep,
     formData,
-    goToStep,
+    formErrors,
     isFirstStep,
     isLastStep,
     nextStep,
@@ -54,25 +55,49 @@ export default function MasterCampaignForm({ campaign }: Props) {
     prevStep();
   };
 
+  const isFormValid = () => {
+    if (currentStep === 0) return isFirstStepValid();
+
+    return true;
+  };
+
+  const isFirstStepValid = () => {
+    const firstStepKeys = ["name"];
+
+    return firstStepKeys.every((key) => !formErrors[key]);
+  };
+
   return (
     <div className={styles.container}>
       <TabContainer tabs={tabs} onTabChange={handleTabChange}>
-        {tabs[currentStep].key}
-        <div className={styles.buttons}>
-          <button
-            onClick={handlePrevStep}
-            disabled={isFirstStep}
-            className={styles.prev_button}>
-            <ArrowLeft02Icon size={20} />
-            Atras
-          </button>
-          {isLastStep ? (
-            <button className={styles.next_button}>Guardar</button>
-          ) : (
-            <button onClick={handleNextStep} className={styles.next_button}>
-              Siguiente
-            </button>
+        <div className={styles.form_container}>
+          {currentTab.key === "basic" && (
+            <MasterCampaignBasicInfoForm
+              campaign={formData}
+              updateValue={updateValue}
+              formErrors={formErrors}
+            />
           )}
+
+          <div className={styles.buttons}>
+            <button
+              onClick={handlePrevStep}
+              disabled={isFirstStep}
+              className={styles.prev_button}>
+              <ArrowLeft02Icon size={20} />
+              Atras
+            </button>
+            {isLastStep ? (
+              <button className={styles.next_button}>Guardar</button>
+            ) : (
+              <button
+                onClick={handleNextStep}
+                className={styles.next_button}
+                disabled={!isFormValid()}>
+                Siguiente
+              </button>
+            )}
+          </div>
         </div>
       </TabContainer>
     </div>

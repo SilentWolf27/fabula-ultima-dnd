@@ -1,0 +1,44 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: var(--neutral-800);
+}
+
+.input {
+  font-size: 1.3rem;
+  padding: 4px 8px;
+  border: 1px solid var(--neutral-600);
+  border-radius: 4px;
+
+  &::placeholder {
+    color: var(--neutral-400);
+  }
+
+  &:focus {
+    outline: 1px solid var(--violet-700);
+  }
+
+  &.input_error {
+    border: 1px solid var(--red-500);
+    outline: 1px solid var(--red-500);
+  }
+}
+
+.error_container {
+  display: flex;
+  gap: 4px;
+  color: var(--red-500);
+  margin-top: 4px;
+  align-items: center;
+}
+
+.error {
+  font-size: 1.3rem;
+  font-weight: 500;
+}

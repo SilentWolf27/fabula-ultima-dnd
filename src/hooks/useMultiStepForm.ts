@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { useForm } from "./useForm";
 
-export const useMultiStepForm = <T>(initialValues: T, totalSteps: number) => {
-  const { formData, updateValue } = useForm<T>(initialValues);
+export const useMultiStepForm = <T extends Record<string, any>>(
+  initialValues: T,
+  totalSteps: number
+) => {
+  const { formData, updateValue, formErrors } = useForm<T>(initialValues);
   const [currentStep, setCurrentStep] = useState<number>(0);
 
   const nextStep = () => {
@@ -21,13 +24,14 @@ export const useMultiStepForm = <T>(initialValues: T, totalSteps: number) => {
   };
 
   return {
-    formData,
-    updateValue,
     currentStep,
+    formData,
+    formErrors,
+    goToStep,
+    isFirstStep: currentStep === 0,
+    isLastStep: currentStep === totalSteps - 1,
     nextStep,
     prevStep,
-    goToStep,
-    isLastStep: currentStep === totalSteps - 1,
-    isFirstStep: currentStep === 0,
+    updateValue,
   };
 };

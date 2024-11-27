@@ -1,28 +1,41 @@
 import { useState } from "react";
 
-export const useForm = <T>(initialValues: T) => {
+export const useForm = <T extends Record<string, any>>(initialValues: T) => {
   const [formData, setFormData] = useState<T>(initialValues);
+  const [errors, setErrors] = useState<Record<string, string | null>>({});
 
-  const updateValue = (key: string, value: any) => {
+  const updateValue = (
+    key: string,
+    value: any,
+    error: string | null = null
+  ) => {
     const nestedKeys: string[] = key.split(".");
 
-    if (nestedKeys.length === 1) {
-      setFormData({ ...formData, [key]: value });
-      return;
-    }
+    setFormData((prev) => {
+      const updatedForm = JSON.parse(JSON.stringify(prev));
+      let nestedForm = updatedForm;
 
-    let nestedObject: any = formData;
-    let lastKey: string = nestedKeys[nestedKeys.length - 1];
-    for (let i = 0; i < nestedKeys.length - 1; i++) {
-      nestedObject = nestedObject[nestedKeys[i]];
-    }
+      for (let i = 0; i < nestedKeys.length - 1; i++) {
+        const currentKey = nestedKeys[i];
 
-    nestedObject[lastKey] = value;
+        if (!nestedForm[currentKey]) {
+          nestedForm[currentKey] = {};
+        }
 
-    setFormData({ ...formData });
+        nestedForm = nestedForm[currentKey];
+      }
+
+      nestedForm[nestedKeys[nestedKeys.length - 1]] = value;
+      return updatedForm;
+    });
+
+    setErrors((prev) => {
+      return { ...prev, [key]: error };
+    });
   };
   return {
     formData,
     updateValue,
+    formErrors: errors,
   };
 };
