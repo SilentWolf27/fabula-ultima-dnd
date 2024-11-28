@@ -5,7 +5,6 @@ import {
   CampaignStatus,
   campaignStatusOptions,
 } from "@/interfaces/entity";
-import styles from "@/styles/components/dashboard/campaign/form/MasterCampaignBasicInfoForm.module.css";
 
 interface Props {
   campaign: Campaign;

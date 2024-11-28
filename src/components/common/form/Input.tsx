@@ -34,9 +34,14 @@ export const Input = ({
   const handleChange: ChangeEventHandler<
     HTMLInputElement | HTMLTextAreaElement
   > = ({ target }) => {
-    const { value, name } = target;
+    const name = target.name;
+    let value: any = target.value;
 
     const error = checkForErrors(value);
+
+    if (type === "number") {
+      value = Number.isNaN(Number(value)) ? 0 : Number(value);
+    }
 
     onChange(name, value, error);
   };

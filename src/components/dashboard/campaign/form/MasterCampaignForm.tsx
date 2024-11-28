@@ -1,13 +1,13 @@
 "use client";
 
-import { TabContainer } from "@/components/common/Tab/TabContainer";
+import { ArrowLeft02Icon } from "hugeicons-react";
 import { Campaign } from "@/interfaces/entity";
-
-import styles from "@/styles/components/dashboard/campaign/form/MasterCampaignForm.module.css";
+import { MasterCampaignSettingsForm } from "./MasterCampaignSettingsForm";
 import { Tab } from "@/interfaces/components";
+import { TabContainer } from "@/components/common/Tab/TabContainer";
 import { useMultiStepForm, useTab } from "@/hooks";
-import { ArrowLeft02Icon, ArrowRight01Icon } from "hugeicons-react";
 import MasterCampaignBasicInfoForm from "./MasterCampaignBasicInfoForm";
+import styles from "@/styles/components/dashboard/campaign/form/MasterCampaignForm.module.css";
 
 interface Props {
   campaign: Campaign;
@@ -16,7 +16,7 @@ interface Props {
 const defaultTabs: Tab[] = [
   { title: "Información básica", key: "basic", disabled: true, active: true },
   { title: "Configuración", key: "config", disabled: true, active: false },
-  { title: "Jugadores", key: "players", disabled: true, active: false },
+  /* { title: "Jugadores", key: "players", disabled: true, active: false }, */
 ];
 
 export default function MasterCampaignForm({ campaign }: Props) {
@@ -74,6 +74,14 @@ export default function MasterCampaignForm({ campaign }: Props) {
           <div className={styles.form}>
             {currentTab.key === "basic" && (
               <MasterCampaignBasicInfoForm
+                campaign={formData}
+                updateValue={updateValue}
+                formErrors={formErrors}
+              />
+            )}
+
+            {currentTab.key === "config" && (
+              <MasterCampaignSettingsForm
                 campaign={formData}
                 updateValue={updateValue}
                 formErrors={formErrors}

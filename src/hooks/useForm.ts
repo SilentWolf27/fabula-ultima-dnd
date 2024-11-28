@@ -10,7 +10,6 @@ export const useForm = <T extends Record<string, any>>(initialValues: T) => {
     error: string | null = null
   ) => {
     const nestedKeys: string[] = key.split(".");
-
     setFormData((prev) => {
       const updatedForm = JSON.parse(JSON.stringify(prev));
       let nestedForm = updatedForm;
