@@ -8,9 +8,11 @@ import { TabContainer } from "@/components/common/Tab/TabContainer";
 import { useMultiStepForm, useTab } from "@/hooks";
 import MasterCampaignBasicInfoForm from "./MasterCampaignBasicInfoForm";
 import styles from "@/styles/components/dashboard/campaign/form/MasterCampaignForm.module.css";
+import { updateCampaignAction } from "@/actions/campaign/campaign";
 
 interface Props {
   campaign: Campaign;
+  action: "create" | "edit";
 }
 
 const defaultTabs: Tab[] = [
@@ -19,7 +21,7 @@ const defaultTabs: Tab[] = [
   /* { title: "Jugadores", key: "players", disabled: true, active: false }, */
 ];
 
-export default function MasterCampaignForm({ campaign }: Props) {
+export default function MasterCampaignForm({ campaign, action }: Props) {
   const { currentTab, handleTabChange, tabs } = useTab(defaultTabs, {
     activePrevTabs: true,
   });
@@ -56,15 +58,41 @@ export default function MasterCampaignForm({ campaign }: Props) {
   };
 
   const isFormValid = () => {
-    if (currentStep === 0) return isFirstStepValid();
+    if (currentStep === 0) return isBasicInfoValid();
+
+    if (currentStep === 1) return isSettingsValid();
 
     return true;
   };
 
-  const isFirstStepValid = () => {
-    const firstStepKeys = ["name"];
+  const isBasicInfoValid = () => {
+    const firstStepKeys = [
+      "name",
+      "description",
+      "short_description",
+      "access_type",
+    ];
 
     return firstStepKeys.every((key) => !formErrors[key]);
+  };
+
+  const isSettingsValid = () => {
+    const secondStepKeys = [
+      "start_level",
+      "max_level",
+      "start_zenit",
+      "start_fabula_points",
+    ];
+
+    return secondStepKeys.every((key) => !formErrors[key]);
+  };
+
+  const save = async () => {
+    if (action === "create") {
+      console.log("create");
+    } else {
+      await updateCampaignAction(formData);
+    }
   };
 
   return (
@@ -98,7 +126,9 @@ export default function MasterCampaignForm({ campaign }: Props) {
               Atras
             </button>
             {isLastStep ? (
-              <button className={styles.next_button}>Guardar</button>
+              <button className={styles.next_button} onClick={save}>
+                Guardar
+              </button>
             ) : (
               <button
                 onClick={handleNextStep}

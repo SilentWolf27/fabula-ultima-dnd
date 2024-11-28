@@ -38,19 +38,6 @@ export default function MasterCampaignBasicInfoForm({
         error={formErrors.status}
       />
 
-      <Select
-        label="Estado"
-        name="status"
-        value={campaign.status}
-        onChange={updateValue}
-        error={formErrors.status}
-        options={campaignStatusOptions}
-        disabled={
-          campaign.status === CampaignStatus.IN_COURSE ||
-          campaign.status === CampaignStatus.FINISHED
-        }
-      />
-
       <Input
         label="Descripción"
         name="description"

@@ -12,7 +12,10 @@ export const MasterCampaignDetail = async ({ id }: Props) => {
   const campaign = await getMasterCampaignDetail(supabase, parseInt(id));
   return (
     <div className={styles.container}>
-      <MasterCampaignForm campaign={campaign} />
+      <MasterCampaignForm
+        campaign={campaign}
+        action={id === "nuevo" ? "create" : "edit"}
+      />
     </div>
   );
 };

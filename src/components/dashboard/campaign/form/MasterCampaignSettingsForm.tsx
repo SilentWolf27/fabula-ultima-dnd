@@ -20,7 +20,6 @@ export const MasterCampaignSettingsForm = ({
         value={`${campaign.settings.start_level}`}
         onChange={updateValue}
         placeholder="Ej. 5"
-        required={true}
         error={formErrors.start_level}
         type="number"
       />
@@ -31,7 +30,6 @@ export const MasterCampaignSettingsForm = ({
         value={`${campaign.settings.max_level}`}
         onChange={updateValue}
         placeholder="Ej. 20"
-        required={true}
         error={formErrors.max_level}
         type="number"
       />
@@ -42,8 +40,7 @@ export const MasterCampaignSettingsForm = ({
         value={`${campaign.settings.start_zenit}`}
         onChange={updateValue}
         placeholder="Ej. 1000"
-        required={true}
-        error={formErrors.start_zenith}
+        error={formErrors.start_zenit}
         type="number"
       />
 
@@ -53,8 +50,7 @@ export const MasterCampaignSettingsForm = ({
         value={`${campaign.settings.start_fabula_points}`}
         onChange={updateValue}
         placeholder="Ej. 2"
-        required={true}
-        error={formErrors.start_fable_points}
+        error={formErrors.start_fabula_points}
         type="number"
       />
     </>
