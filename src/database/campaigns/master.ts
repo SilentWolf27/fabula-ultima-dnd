@@ -51,3 +51,27 @@ export const getMasterCampaignDetail = async (
 
   return data;
 };
+
+export const updateMasterCampaign = async (
+  supabase: SupabaseClient,
+  campaign: Campaign | Partial<Campaign>
+): Promise<void> => {
+  if (!campaign.id)
+    throw new Error("No se ha proporcionado el ID de la campaña");
+
+  const updateData = {
+    ...campaign,
+  };
+
+  delete updateData.characters;
+
+  const { error } = await supabase
+    .from("campaigns")
+    .update(updateData)
+    .eq("id", campaign.id);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Error al actualizar la campaña");
+  }
+};

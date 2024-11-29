@@ -8,11 +8,15 @@ import { TabContainer } from "@/components/common/Tab/TabContainer";
 import { useMultiStepForm, useTab } from "@/hooks";
 import MasterCampaignBasicInfoForm from "./MasterCampaignBasicInfoForm";
 import styles from "@/styles/components/dashboard/campaign/form/MasterCampaignForm.module.css";
-import { updateCampaignAction } from "@/actions/campaign/campaign";
+import {
+  CampaignActionResponse,
+  updateCampaignAction,
+} from "@/actions/campaign/campaign";
+import { useState } from "react";
 
 interface Props {
   campaign: Campaign;
-  action: "create" | "edit";
+  action: "create" | "update";
 }
 
 const defaultTabs: Tab[] = [
@@ -35,7 +39,10 @@ export default function MasterCampaignForm({ campaign, action }: Props) {
     nextStep,
     prevStep,
     updateValue,
+    setErrors,
   } = useMultiStepForm<Campaign>(campaign, tabs.length);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleNextStep = () => {
     const nextTab = tabs[currentStep + 1];
@@ -88,11 +95,21 @@ export default function MasterCampaignForm({ campaign, action }: Props) {
   };
 
   const save = async () => {
+    setIsLoading(true);
+
+    let result: CampaignActionResponse | null = null;
+
     if (action === "create") {
-      console.log("create");
+      //result = await createCampaignAction();
     } else {
-      await updateCampaignAction(formData);
+      result = await updateCampaignAction(formData);
     }
+
+    if (result && !result.success) {
+      setErrors({ ...formErrors, general: result.error });
+    }
+
+    setIsLoading(false);
   };
 
   return (
@@ -116,7 +133,9 @@ export default function MasterCampaignForm({ campaign, action }: Props) {
               />
             )}
           </div>
-
+          {formErrors.general && (
+            <p className={styles.error}>{formErrors.general}</p>
+          )}
           <div className={styles.buttons}>
             <button
               onClick={handlePrevStep}
@@ -126,8 +145,11 @@ export default function MasterCampaignForm({ campaign, action }: Props) {
               Atras
             </button>
             {isLastStep ? (
-              <button className={styles.next_button} onClick={save}>
-                Guardar
+              <button
+                className={styles.next_button}
+                onClick={save}
+                disabled={isLoading}>
+                {isLoading ? "Guardando..." : "Guardar"}
               </button>
             ) : (
               <button

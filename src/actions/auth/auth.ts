@@ -1,6 +1,6 @@
 "use server";
 
-import { createLoginSchema } from "@/schemas/auth/auth";
+import { loginSchema } from "@/schemas/auth/auth";
 import { getSupabaseServerClient } from "@/utils/supabase/serverClient";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
@@ -27,7 +27,7 @@ export async function loginAction(
 
   const loginData = { email, password };
 
-  const valResult = validateSchema(loginData, createLoginSchema);
+  const valResult = validateSchema(loginData, loginSchema);
 
   if (!valResult.success) {
     return {

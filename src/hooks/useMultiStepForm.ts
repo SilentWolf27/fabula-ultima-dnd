@@ -5,7 +5,8 @@ export const useMultiStepForm = <T extends Record<string, any>>(
   initialValues: T,
   totalSteps: number
 ) => {
-  const { formData, updateValue, formErrors } = useForm<T>(initialValues);
+  const { formData, updateValue, formErrors, setErrors } =
+    useForm<T>(initialValues);
   const [currentStep, setCurrentStep] = useState<number>(0);
 
   const nextStep = () => {
@@ -33,5 +34,6 @@ export const useMultiStepForm = <T extends Record<string, any>>(
     nextStep,
     prevStep,
     updateValue,
+    setErrors,
   };
 };

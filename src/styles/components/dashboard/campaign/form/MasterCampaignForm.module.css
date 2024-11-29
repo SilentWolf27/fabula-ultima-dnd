@@ -50,7 +50,7 @@
   gap: 24px;
   height: 100%;
   max-height: 100%;
-  overflow: hidden
+  overflow: hidden;
 }
 
 .form {
@@ -60,4 +60,10 @@
   height: 100%;
   flex: 1;
   overflow-y: auto;
+}
+
+.error {
+  color: var(--red-500);
+  font-size: 1.2rem;
+  font-weight: 600;
 }
