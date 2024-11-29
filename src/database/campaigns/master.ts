@@ -109,7 +109,6 @@ export const updateMasterCampaign = async (
 };
 
 export const createDefaultMasterCampaign = (): Campaign => ({
-  id: 0,
   name: "",
   description: "",
   short_description: "",
