@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextRequest, NextResponse } from "next/server";
+import { getSupabaseJwtPayload } from "../session/session";
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
@@ -31,5 +32,7 @@ export async function updateSession(request: NextRequest) {
 
   const { data } = await supabase.auth.getUser();
 
-  return { user: data?.user, supabaseResponse };
+  const token = await getSupabaseJwtPayload(supabase);
+
+  return { user: data?.user, supabaseResponse, token };
 }

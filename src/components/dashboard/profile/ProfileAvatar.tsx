@@ -1,11 +1,11 @@
 import { getProfile } from "@/database/account/profile";
-import { getServerSupabaseClient } from "@/utils/supabase/serverClient";
-import styles from "@/styles/components/account/AccountInfoCard.module.css";
+import { getSupabaseServerClient } from "@/utils/supabase/serverClient";
+import styles from "@/styles/components/dashboard/profile/ProfileAvatar.module.css";
 import Image from "next/image";
 import supabaseLoader from "@/utils/images/loader";
 
-export const AccountInfoCard = async () => {
-  const client = await getServerSupabaseClient();
+export const ProfileAvatar = async () => {
+  const client = await getSupabaseServerClient();
   const profile = await getProfile(client);
 
   return profile ? (
@@ -22,7 +22,7 @@ export const AccountInfoCard = async () => {
           />
         )}
         <span className={styles.role_badge}>
-          {profile.isDm ? "Dungeon Master" : "Player"}
+          {profile.fabulaRole === "dm" ? "Dungeon Master" : "Player"}
         </span>
       </div>
 

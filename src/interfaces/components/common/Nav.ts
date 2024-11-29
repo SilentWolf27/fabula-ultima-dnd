@@ -1,7 +1,9 @@
-import React from "react";
+import { HugeiconsProps } from "hugeicons-react";
+import { FC } from "react";
 
 export interface NavBarItem {
   label: string;
   path: string;
-  icon?: React.ReactNode;
+  icon?: FC<Omit<HugeiconsProps, "ref">>;
+  role: "dm" | "player" | "both";
 }

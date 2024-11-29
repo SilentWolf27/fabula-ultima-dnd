@@ -1,0 +1,40 @@
+.container {
+  padding: 32px 24px;
+  min-width: 320px;
+  height: 100%;
+  background-color: var(--neutral-100);
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  font-family: var(--font-metamorphous);
+}
+
+.items_container {
+  max-height: 100%;
+  overflow-y: auto;
+  scrollbar-width: none;
+  padding: 24px 0;
+}
+
+.text {
+  font-size: 1.4rem;
+  color: var(--neutral-800);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.link {
+  background-color: var(--violet-500);
+  color: var(--neutral-100);
+  font-size: 1.3rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-decoration: none;
+}

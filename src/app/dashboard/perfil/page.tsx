@@ -1,15 +1,15 @@
-import { AccountInfoCard } from "@/components/account/AccountInfoCard";
+import { ProfileAvatar } from "@/components/dashboard/profile/ProfileAvatar";
 import { SignOutButton } from "@/components/auth/SignOutButton";
 import styles from "@/styles/pages/account/Account.module.css";
 import { ArrowRight01Icon } from "hugeicons-react";
 import Link from "next/link";
 
-export default function Account() {
+export default function Profile() {
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Perfil</h2>
       <section className={styles.information}>
-        <AccountInfoCard />
+        <ProfileAvatar />
       </section>
       <div className={styles.sections_container}>
         <section className={styles.section}>
