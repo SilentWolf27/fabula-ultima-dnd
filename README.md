@@ -13,7 +13,7 @@ This project is a Dungeons and Dragons software tool that helps me and my friend
 
 ### Players Features
 
-- [X] User authentication
+- [X] [User authentication](#user-authentication)
 - [] Basic character creation
 - [] Bonds
 - [] Equipment
@@ -30,13 +30,29 @@ This project is a Dungeons and Dragons software tool that helps me and my friend
 
 ### Dungeon Master Features
 
-- [] Campaign creation
+- [X] [Campaign creation](#campaign-creation)
 
 ## Feature details
 
-### User authentication
+### Player Features
+
+#### User authentication
 
 The authentication is done using Supabase Auth. Currently, the only way to register is by the admin manually creating the user in the Supabase dashboard.
 
 - [X] Login using email and password
 - [X] Register using email and password (manually performed by the admin)
+
+### Master Features
+
+#### Campaign creation
+
+The Dungeon Master can create a campaign and invite players to join it. The campaign has a name, description, a short description, and a settings object that can be used to store any kind of information.
+
+- [X] Create a campaign
+- [X] Campaign settings
+- [] Invite players to join the campaign
+- [] Approve player requests to join the campaign
+- [] Remove players from the campaign
+- [X] Update campaign
+- [] Delete campaign
