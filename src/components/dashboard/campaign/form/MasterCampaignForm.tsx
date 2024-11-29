@@ -10,6 +10,7 @@ import MasterCampaignBasicInfoForm from "./MasterCampaignBasicInfoForm";
 import styles from "@/styles/components/dashboard/campaign/form/MasterCampaignForm.module.css";
 import {
   CampaignActionResponse,
+  createCampaignAction,
   updateCampaignAction,
 } from "@/actions/campaign/campaign";
 import { useState } from "react";
@@ -73,25 +74,27 @@ export default function MasterCampaignForm({ campaign, action }: Props) {
   };
 
   const isBasicInfoValid = () => {
-    const firstStepKeys = [
+    const firstStepKeys: (keyof Campaign)[] = [
       "name",
       "description",
       "short_description",
       "access_type",
     ];
 
-    return firstStepKeys.every((key) => !formErrors[key]);
+    return firstStepKeys.every((key) => !formErrors[key] && formData[key]);
   };
 
   const isSettingsValid = () => {
-    const secondStepKeys = [
+    const secondStepKeys: (keyof Campaign["settings"])[] = [
       "start_level",
       "max_level",
       "start_zenit",
       "start_fabula_points",
     ];
 
-    return secondStepKeys.every((key) => !formErrors[key]);
+    return secondStepKeys.every(
+      (key) => !formErrors[key] && formData.settings[key]
+    );
   };
 
   const save = async () => {
@@ -100,7 +103,7 @@ export default function MasterCampaignForm({ campaign, action }: Props) {
     let result: CampaignActionResponse | null = null;
 
     if (action === "create") {
-      //result = await createCampaignAction();
+      result = await createCampaignAction(formData);
     } else {
       result = await updateCampaignAction(formData);
     }
@@ -148,7 +151,7 @@ export default function MasterCampaignForm({ campaign, action }: Props) {
               <button
                 className={styles.next_button}
                 onClick={save}
-                disabled={isLoading}>
+                disabled={isLoading || !isFormValid()}>
                 {isLoading ? "Guardando..." : "Guardar"}
               </button>
             ) : (

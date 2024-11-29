@@ -11,10 +11,10 @@ export interface Campaign {
 }
 
 export interface CampaignSettings {
-  start_level: number;
-  max_level: number;
-  start_zenit: number;
-  start_fabula_points: number;
+  start_level?: number;
+  max_level?: number;
+  start_zenit?: number;
+  start_fabula_points?: number;
 }
 
 export interface CampaignCharacter {}

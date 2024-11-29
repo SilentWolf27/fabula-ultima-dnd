@@ -1,4 +1,9 @@
-import { BasicCampaign, Campaign } from "@/interfaces/entity";
+import {
+  BasicCampaign,
+  Campaign,
+  CampaignAccessType,
+  CampaignStatus,
+} from "@/interfaces/entity";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 export const getMasterCampaigns = async (
@@ -10,7 +15,9 @@ export const getMasterCampaigns = async (
       `id, name, short_description, status, access_type,
       enrolled_characters:character_campaign(count)`
     )
-    .is("deleted_at", null);
+    .is("deleted_at", null)
+    .order("created_at", { ascending: false });
+
   if (error) {
     console.error(error);
     throw new Error("Error al obtener las campañas");
@@ -52,6 +59,31 @@ export const getMasterCampaignDetail = async (
   return data;
 };
 
+export const createMasterCampaign = async (
+  supabase: SupabaseClient,
+  campaign: Campaign
+): Promise<Campaign> => {
+  const newCampaign = JSON.parse(JSON.stringify(campaign));
+
+  if (newCampaign.id)
+    throw new Error("No se puede crear una campaña con un ID");
+
+  delete newCampaign.characters;
+
+  const { error, data } = await supabase
+    .from("campaigns")
+    .insert(newCampaign)
+    .select()
+    .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Error al crear la campaña");
+  }
+
+  return data;
+};
+
 export const updateMasterCampaign = async (
   supabase: SupabaseClient,
   campaign: Campaign | Partial<Campaign>
@@ -75,3 +107,15 @@ export const updateMasterCampaign = async (
     throw new Error("Error al actualizar la campaña");
   }
 };
+
+export const createDefaultMasterCampaign = (): Campaign => ({
+  id: 0,
+  name: "",
+  description: "",
+  short_description: "",
+  status: CampaignStatus.HIDDEN,
+  access_type: CampaignAccessType.PUBLIC,
+  settings: {},
+  max_players: 99,
+  characters: [],
+});
