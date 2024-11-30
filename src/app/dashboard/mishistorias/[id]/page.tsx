@@ -1,4 +1,7 @@
-import { MasterCampaignDetail } from "@/components/dashboard/campaign/MasterCampaignDetail";
+import { getMasterCampaignDetail } from "@/database/campaigns/master";
+import { getSupabaseServerClient } from "@/utils/supabase/serverClient";
+import styles from "@/styles/pages/dashboard/detailTemplate.module.css";
+import MasterCampaignForm from "@/components/dashboard/campaign/form/MasterCampaignForm";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -6,5 +9,13 @@ interface Props {
 
 export default async function CampaignDetailPage({ params }: Props) {
   const id = (await params).id;
-  return <MasterCampaignDetail id={id} />;
+
+  const supabase = await getSupabaseServerClient();
+  const campaign = await getMasterCampaignDetail(supabase, parseInt(id));
+
+  return (
+    <div className={styles.container}>
+      <MasterCampaignForm campaign={campaign} action={"update"} />
+    </div>
+  );
 }
