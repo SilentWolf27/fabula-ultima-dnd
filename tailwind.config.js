@@ -12,7 +12,7 @@ module.exports = {
         lora: ["var(--font-lora)"],
       },
       gridTemplateRows: {
-        "mobile-layout": "auto 1fr auto",
+        "dashboard-mobile": "auto 1fr auto",
       },
       colors: {
         background: "hsl(var(--background))",
