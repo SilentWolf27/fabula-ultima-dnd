@@ -8,16 +8,18 @@ export const metadata: Metadata = {
     "Fabula Ultima App es una aplicación sin fines de lucro para la facilitación de la creación e interacción de historias de rol.",
 };
 
-const metamorphous = Metamorphous<any>({
+const metamorphous = Metamorphous({
   weight: "400",
   style: "normal",
   subsets: ["latin"],
+  variable: "--font-metamorphous",
 });
 
 const lora = Lora({
   weight: ["400", "500", "600", "700"],
   style: "normal",
   subsets: ["latin"],
+  variable: "--font-lora",
 });
 
 export default function RootLayout({
@@ -26,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
+    <html lang="es" className={`${lora.variable} ${metamorphous.variable}`}>
       <body>{children}</body>
     </html>
   );
