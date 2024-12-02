@@ -1,36 +1,20 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import Link from "next/link";
-import styles from "@/styles/components/common/NavBar.module.css";
 import { useNavbar } from "@/hooks";
+import { NavbarItem } from "./NavbarItem";
 
 export const NavBar = () => {
   const currentPath = usePathname();
   const { items } = useNavbar();
 
-  const getLinkIsActive = (path: string) => {
-    if (currentPath.includes(path) && path !== "/dashboard") {
-      return true;
-    }
-
-    return currentPath === path;
-  };
-
   return (
-    <nav className={styles.navbar}>
-      <ul className={styles.navbar__list}>
+    <nav
+      className="w-full max-w-full overflow-x-auto scroll-none  min-h-[70px]"
+      style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px" }}>
+      <ul className="flex flex-nowrap justify-start items-center list-none h-full">
         {items.map((item, index) => (
-          <li
-            key={index}
-            className={`${styles.navbar__item} ${
-              getLinkIsActive(item.path) ? styles.active : ""
-            }`}>
-            <Link href={item.path} className={styles.navbar__link}>
-              {item.icon ? <item.icon /> : null}
-              <span>{item.label}</span>
-            </Link>
-          </li>
+          <NavbarItem key={index} item={item} currentPath={currentPath} />
         ))}
       </ul>
     </nav>
