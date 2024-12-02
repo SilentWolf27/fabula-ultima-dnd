@@ -1,24 +1,29 @@
-import { ProfileAvatar } from "@/components/dashboard/profile/ProfileAvatar";
 import { SignOutButton } from "@/components/auth/SignOutButton";
-import styles from "@/styles/pages/account/Account.module.css";
+import { ProfileAvatar } from "@/components/dashboard/profile/ProfileAvatar";
+import { getProfile } from "@/database/account/profile";
+import { getSupabaseServerClient } from "@/utils/supabase/serverClient";
 import { ArrowRight01Icon } from "hugeicons-react";
 import Link from "next/link";
 
-export default function Profile() {
+export default async function Profile() {
+  const client = await getSupabaseServerClient();
+  const profile = await getProfile(client);
   return (
-    <div className={styles.container}>
-      <h2 className={styles.title}>Perfil</h2>
-      <section className={styles.information}>
-        <ProfileAvatar />
+    <div className="flex flex-col justify-center pt-9 font-lora">
+      <h2 className="text-xl font-metamorphous text-center">Perfil</h2>
+      <section>
+        <ProfileAvatar profile={profile} />
       </section>
-      <div className={styles.sections_container}>
-        <section className={styles.section}>
-          <Link href="/perfil/editar" className={styles.link}>
+      <div className="px-3 py-4 bg-zinc-100 flex flex-col gap-4">
+        <section className="bg-white p-2 rounded-sm">
+          <Link
+            href="/perfil/editar"
+            className="decoration-0 text-gray-800 py-2 px-4 text-base flex justify-between items-center">
             Editar perfil
             <ArrowRight01Icon size={24} />
           </Link>
         </section>
-        <section className={styles.section}>
+        <section className="bg-white p-2 rounded-sm">
           <SignOutButton />
         </section>
       </div>
