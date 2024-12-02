@@ -1,29 +1,21 @@
 "use client";
 
-import { signOutAction, SignOutState } from "@/actions/auth/auth";
+import { signOutAction } from "@/actions/auth/auth";
 import { useActionState } from "react";
-import styles from "@/styles/components/auth/SignOutButton.module.css";
-
-const initialState: SignOutState = {
-  message: null,
-};
 
 export const SignOutButton = () => {
-  const [state, formAction, isPending] = useActionState<SignOutState>(
+  const [state, formAction, isPending] = useActionState<string | null>(
     signOutAction,
-    initialState
+    null
   );
 
   return (
     <form action={formAction}>
-      <button
-        type="submit"
-        className={styles.signout_button}
-        disabled={isPending}>
-        Cerrar sesión
+      <button type="submit" className="text-red-600 hover:bg-gray-100 w-full text-left px-4 py-2 rounded-r-sm" disabled={isPending}>
+        {isPending ? "Cerrando sesión..." : "Cerrar sesión"}
       </button>
 
-      {state.message && <p>{state.message}</p>}
+      {state && <p>{state}</p>}
     </form>
   );
 };

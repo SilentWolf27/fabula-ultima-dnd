@@ -27,10 +27,15 @@ export async function loginAction(
   redirect("/dashboard");
 }
 
-export async function signOutAction(): Promise<void> {
+export async function signOutAction(): Promise<string | null> {
   const client = await getSupabaseServerClient();
-  //const { error } = await client.auth.signOut({ scope: "local" });
+  const { error } = await client.auth.signOut({ scope: "local" });
 
-  /* revalidatePath("/", "layout");
-  redirect("/login"); */
+  if (error) {
+    console.error(error);
+    return "Error al cerrar sesión";
+  }
+
+  revalidatePath("/", "layout");
+  redirect("/login");
 }
