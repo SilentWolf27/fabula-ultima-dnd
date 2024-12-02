@@ -21,11 +21,6 @@ import { useState } from "react";
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  /* const [formState, formAction, isFormPending] = useActionState<
-    LoginState,
-    FormData
-  >(loginAction, initialFormState); */
-
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -34,10 +29,18 @@ export const LoginForm = () => {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof loginSchema>) => {
-    console.log(data);
+  const onSubmit = async (data: z.infer<typeof loginSchema>) => {
+    const { error } = await loginAction(data);
+
+    if (error) {
+      form.setError("root.server", {
+        type: "server",
+        message: error.message,
+      });
+    }
   };
 
+  const errors = form.formState.errors;
   return (
     <Form {...form}>
       <form
@@ -88,10 +91,16 @@ export const LoginForm = () => {
           )}
         />
 
-        <Button className="bg-violet-700 text-base" type="submit">
-          {" "}
-          Iniciar sesión{" "}
+        <Button
+          className="bg-violet-700 text-base hover:bg-violet-900 disabled:bg-violet-500"
+          type="submit"
+          disabled={form.formState.isSubmitting}>
+          {form.formState.isSubmitting
+            ? "Iniciando sesión..."
+            : "Iniciar sesión"}
         </Button>
+
+        {errors.root?.server && <p className="text-red-600 text-sm text-center">{errors.root.server.message}</p>}
       </form>
     </Form>
   );
