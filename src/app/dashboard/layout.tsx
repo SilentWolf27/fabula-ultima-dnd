@@ -1,5 +1,4 @@
 import { NavBar } from "@/components/common/NavBar";
-import "./styles.css";
 import { Header } from "@/components/common/Header";
 
 export default function DashboardLayout({
@@ -8,9 +7,9 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="main_container">
+    <div className="grid grid-cols-1 grid-rows-mobile-layout min-h-dvh">
       <Header />
-      <main className="main">{children}</main>
+      <main className="max-h-full overflow-hidden">{children}</main>
       <NavBar />
     </div>
   );

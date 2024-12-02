@@ -17,7 +17,7 @@ export default async function Profile() {
       <div className="px-3 py-4 bg-zinc-100 flex flex-col gap-4">
         <section className="bg-white p-2 rounded-sm">
           <Link
-            href="/perfil/editar"
+            href="perfil/editar"
             className="decoration-0 text-gray-800 py-2 px-4 text-base flex justify-between items-center">
             Editar perfil
             <ArrowRight01Icon size={24} />
