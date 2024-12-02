@@ -1,3 +1,3 @@
-export default function EditProfilePage() {
-  return <div>Formulario de edición de perfil</div>;
+export default async function EditProfilePage() {
+  return <p>Site in construction</p>;
 }
