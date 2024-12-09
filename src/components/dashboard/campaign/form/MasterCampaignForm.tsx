@@ -3,168 +3,135 @@
 import { ArrowLeft02Icon } from "hugeicons-react";
 import { Campaign } from "@/interfaces/entity";
 import { MasterCampaignSettingsForm } from "./MasterCampaignSettingsForm";
-import { Tab } from "@/interfaces/components";
-import { TabContainer } from "@/components/common/Tab/TabContainer";
-import { useMultiStepForm, useTab } from "@/hooks";
+import { FormStep } from "@/interfaces/components";
+import { FormStepsHeader } from "@/components/common/form/FormStepsHeader";
+import { useMultiStepForm } from "@/hooks";
 import MasterCampaignBasicInfoForm from "./MasterCampaignBasicInfoForm";
-import styles from "@/styles/components/dashboard/dashboardFormTemplate.module.css";
 import {
   CampaignActionResponse,
   createCampaignAction,
   updateCampaignAction,
 } from "@/actions/campaign/campaign";
-import { useState } from "react";
+import { z } from "zod";
+import { Form } from "@/components/ui/form";
+import {
+  createCampaignSchema,
+  updateCampaignSchema,
+} from "@/schemas/campaign/campaign";
+import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
 
 interface Props {
   campaign: Campaign;
   action: "create" | "update";
 }
 
-const defaultTabs: Tab[] = [
-  { title: "Información básica", key: "basic", disabled: true, active: true },
-  { title: "Configuración", key: "config", disabled: true, active: false },
-  /* { title: "Jugadores", key: "players", disabled: true, active: false }, */
+const steps: FormStep[] = [
+  {
+    title: "Información básica",
+    key: "basic",
+    fields: ["name", "description", "short_description", "access_type"],
+  },
+  {
+    title: "Configuración",
+    key: "config",
+    fields: ["start_level", "max_level", "start_zenit", "start_fabula_points"],
+  },
 ];
 
 export default function MasterCampaignForm({ campaign, action }: Props) {
-  const { currentTab, handleTabChange, tabs } = useTab(defaultTabs, {
-    activePrevTabs: true,
-  });
+  const schema =
+    action === "create" ? createCampaignSchema : updateCampaignSchema;
 
-  const {
-    currentStep,
-    formData,
-    formErrors,
-    isFirstStep,
-    isLastStep,
-    nextStep,
-    prevStep,
-    updateValue,
-    setErrors,
-  } = useMultiStepForm<Campaign>(campaign, tabs.length);
+  const { currentStep, isFirstStep, isLastStep, nextStep, prevStep, form } =
+    useMultiStepForm({
+      initialValues: campaign,
+      totalSteps: steps.length,
+      schema,
+    });
 
-  const [isLoading, setIsLoading] = useState(false);
+  const handleNextStep = async () => {
+    const fields = steps[currentStep].fields;
 
-  const handleNextStep = () => {
-    const nextTab = tabs[currentStep + 1];
+    const isValid = await form.trigger(fields, { shouldFocus: true });
 
-    if (nextTab) {
-      handleTabChange(nextTab);
-    }
-
+    if (!isValid) return;
     nextStep();
   };
 
   const handlePrevStep = () => {
-    const prevTab = tabs[currentStep - 1];
-
-    if (prevTab) {
-      handleTabChange(prevTab);
-    }
-
     prevStep();
   };
 
-  const isFormValid = () => {
-    if (currentStep === 0) return isBasicInfoValid();
-
-    if (currentStep === 1) return isSettingsValid();
-
-    return true;
-  };
-
-  const isBasicInfoValid = () => {
-    const firstStepKeys: (keyof Campaign)[] = [
-      "name",
-      "description",
-      "short_description",
-      "access_type",
-    ];
-
-    return firstStepKeys.every((key) => !formErrors[key] && formData[key]);
-  };
-
-  const isSettingsValid = () => {
-    const secondStepKeys: (keyof Campaign["settings"])[] = [
-      "start_level",
-      "max_level",
-      "start_zenit",
-      "start_fabula_points",
-    ];
-
-    return secondStepKeys.every(
-      (key) => !formErrors[key] && formData.settings[key]
-    );
-  };
-
-  const save = async () => {
-    setIsLoading(true);
-
+  const onSubmit = async (values: Campaign) => {
     let result: CampaignActionResponse | null = null;
 
     if (action === "create") {
-      result = await createCampaignAction(formData);
+      result = await createCampaignAction(values);
     } else {
-      result = await updateCampaignAction(formData);
+      result = await updateCampaignAction(values);
     }
 
     if (result && !result.success) {
-      setErrors({ ...formErrors, general: result.error });
+      form.setError("root.server", {
+        type: "server",
+        message: result.error || "Error al guardar la campaña",
+      });
     }
-
-    setIsLoading(false);
+    console.log(values);
   };
 
   return (
-    <div className={styles.container}>
-      <TabContainer tabs={tabs} onTabChange={handleTabChange}>
-        <div className={styles.form_container}>
-          <div className={styles.form}>
-            {currentTab.key === "basic" && (
-              <MasterCampaignBasicInfoForm
-                campaign={formData}
-                updateValue={updateValue}
-                formErrors={formErrors}
-              />
+    <div className=" max-h-full py-6 px-4 h-full flex flex-col">
+      <FormStepsHeader steps={steps} currentStep={steps[currentStep].key} />
+
+      <Form {...form}>
+        <form
+          className="flex flex-col gap-6 h-full overflow-hidden max-h-full mt-6"
+          onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="flex flex-col gap-6 h-full flex-1 overflow-y-auto max-h-full px-2">
+            {steps[currentStep].key === "basic" && (
+              <MasterCampaignBasicInfoForm form={form} />
             )}
 
-            {currentTab.key === "config" && (
-              <MasterCampaignSettingsForm
-                campaign={formData}
-                updateValue={updateValue}
-                formErrors={formErrors}
-              />
+            {steps[currentStep].key === "config" && (
+              <MasterCampaignSettingsForm form={form} />
             )}
           </div>
-          {formErrors.general && (
-            <p className={styles.error}>{formErrors.general}</p>
-          )}
-          <div className={styles.buttons}>
-            <button
+          <div className="flex justify-end gap-4 w-full">
+            <Button
+              variant="outline"
               onClick={handlePrevStep}
               disabled={isFirstStep}
-              className={styles.prev_button}>
-              <ArrowLeft02Icon size={20} />
+              className="flex items-center gap-1 text-violet-700 border-0 px-4 py-2 rounded-sm font-semibold text-base disabled:text-gray-400">
+              <ArrowLeft02Icon size={18} />
               Atras
-            </button>
+            </Button>
             {isLastStep ? (
-              <button
-                className={styles.next_button}
-                onClick={save}
-                disabled={isLoading || !isFormValid()}>
-                {isLoading ? "Guardando..." : "Guardar"}
-              </button>
+              <Button
+                className="bg-violet-700 text-white font-semibold px-3 py-2 rounded-sm border-0 text-sm min-w-[100px] disabled:bg-violet-300 hover:bg-violet-900"
+                disabled={form.formState.isSubmitting}
+                type="submit">
+                {form.formState.isSubmitting && (
+                  <Loader2 size={20} className="animate-spin" />
+                )}
+                {form.formState.isSubmitting ? "Guardando..." : "Guardar"}
+              </Button>
             ) : (
-              <button
+              <Button
                 onClick={handleNextStep}
-                className={styles.next_button}
-                disabled={!isFormValid()}>
+                className="bg-violet-700 text-white font-semibold px-3 py-2 rounded-sm border-0 text-sm min-w-[100px] disabled:bg-violet-300 hover:bg-violet-900">
                 Siguiente
-              </button>
+              </Button>
+            )}
+            {form.formState.errors.root?.server && (
+              <p className="text-red-600 text-sm text-center">
+                {form.formState.errors.root.server.message}
+              </p>
             )}
           </div>
-        </div>
-      </TabContainer>
+        </form>
+      </Form>
     </div>
   );
 }

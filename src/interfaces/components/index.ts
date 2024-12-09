@@ -1,2 +1,2 @@
-export * from "./common/Tab";
+export * from "./common/Form";
 export * from "./common/Nav";

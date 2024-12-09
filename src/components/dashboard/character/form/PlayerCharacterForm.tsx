@@ -3,8 +3,8 @@
 import { ArrowLeft02Icon } from "hugeicons-react";
 import { PlayerCharacter } from "@/interfaces/entity";
 import { Tab } from "@/interfaces/components";
-import { TabContainer } from "@/components/common/Tab/TabContainer";
-import { useMultiStepForm, useTab } from "@/hooks";
+import { TabContainer } from "@/components/common/form/FormStepsHeader";
+import { useMultiStepForm } from "@/hooks";
 import { useState } from "react";
 import styles from "@/styles/components/dashboard/dashboardFormTemplate.module.css";
 import PlayerCharacterAboutForm from "./PlayerCharacterAboutForm";
