@@ -12,14 +12,12 @@ import {
   createCampaignAction,
   updateCampaignAction,
 } from "@/actions/campaign/campaign";
-import { z } from "zod";
 import { Form } from "@/components/ui/form";
 import {
   createCampaignSchema,
   updateCampaignSchema,
 } from "@/schemas/campaign/campaign";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
 
 interface Props {
   campaign: Campaign;
@@ -112,17 +110,15 @@ export default function MasterCampaignForm({ campaign, action }: Props) {
                 className="bg-violet-700 text-white font-semibold px-3 py-2 rounded-sm border-0 text-sm min-w-[100px] disabled:bg-violet-300 hover:bg-violet-900"
                 disabled={form.formState.isSubmitting}
                 type="submit">
-                {form.formState.isSubmitting && (
-                  <Loader2 size={20} className="animate-spin" />
-                )}
                 {form.formState.isSubmitting ? "Guardando..." : "Guardar"}
               </Button>
             ) : (
-              <Button
+              <button
                 onClick={handleNextStep}
-                className="bg-violet-700 text-white font-semibold px-3 py-2 rounded-sm border-0 text-sm min-w-[100px] disabled:bg-violet-300 hover:bg-violet-900">
+                className="bg-violet-700 text-white font-semibold px-3 py-2 rounded-sm border-0 text-sm min-w-[100px] disabled:bg-violet-300 hover:bg-violet-900"
+                type="button">
                 Siguiente
-              </Button>
+              </button>
             )}
             {form.formState.errors.root?.server && (
               <p className="text-red-600 text-sm text-center">

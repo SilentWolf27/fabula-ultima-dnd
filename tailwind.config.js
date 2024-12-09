@@ -14,6 +14,10 @@ module.exports = {
       gridTemplateRows: {
         "dashboard-mobile": "auto 1fr auto",
       },
+      gridTemplateColumns: {
+        "item-list": "repeat(auto-fill, minmax(240px, 1fr))",
+      },
+      "dashboard-desktop": "auto 1fr auto",
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",

@@ -7,9 +7,9 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="grid grid-cols-1 grid-rows-dashboard-mobile min-h-dvh gap-4">
+    <div className="grid grid-cols-1 grid-rows-dashboard-mobile min-h-dvh">
       <Header />
-      <main className=" h-full max-h-[calc(100dvh-172px)] overflow-hidden">{children}</main>
+      <main className=" h-full max-h-[calc(100dvh-140px)] overflow-hidden">{children}</main>
       <NavBar />
     </div>
   );
