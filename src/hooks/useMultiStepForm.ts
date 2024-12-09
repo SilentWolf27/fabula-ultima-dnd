@@ -1,12 +1,24 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { useForm } from "./useForm";
+import { useForm } from "react-hook-form";
+import { z, ZodSchema } from "zod";
 
-export const useMultiStepForm = <T extends Record<string, any>>(
-  initialValues: T,
-  totalSteps: number
-) => {
-  const { formData, updateValue, formErrors, setErrors } =
-    useForm<T>(initialValues);
+interface MultiStepFormParams {
+  initialValues: any;
+  totalSteps: number;
+  schema: ZodSchema;
+}
+
+export const useMultiStepForm = ({
+  initialValues,
+  totalSteps,
+  schema,
+}: MultiStepFormParams) => {
+  const form = useForm<z.infer<typeof schema>>({
+    defaultValues: initialValues,
+    resolver: zodResolver(schema),
+  });
+
   const [currentStep, setCurrentStep] = useState<number>(0);
 
   const nextStep = () => {
@@ -26,14 +38,12 @@ export const useMultiStepForm = <T extends Record<string, any>>(
 
   return {
     currentStep,
-    formData,
-    formErrors,
+
     goToStep,
     isFirstStep: currentStep === 0,
     isLastStep: currentStep === totalSteps - 1,
     nextStep,
     prevStep,
-    updateValue,
-    setErrors,
+    form,
   };
 };
