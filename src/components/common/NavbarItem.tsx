@@ -19,7 +19,7 @@ export const NavbarItem = ({ item, currentPath }: Props) => {
   return (
     <li
       className={`w-full h-full py-3 px-2 min-w-[112px] rounded-sm select-none bg-white ${
-        isActive ? "bg-violet-100" : ""
+        isActive ? "bg-purple-100" : ""
       }`}>
       <Link
         href={item.path}
