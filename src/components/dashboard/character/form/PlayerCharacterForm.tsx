@@ -2,142 +2,119 @@
 
 import { ArrowLeft02Icon } from "hugeicons-react";
 import { PlayerCharacter } from "@/interfaces/entity";
-import { Tab } from "@/interfaces/components";
-import { TabContainer } from "@/components/common/form/FormStepsHeader";
 import { useMultiStepForm } from "@/hooks";
-import { useState } from "react";
-import styles from "@/styles/components/dashboard/dashboardFormTemplate.module.css";
 import PlayerCharacterAboutForm from "./PlayerCharacterAboutForm";
 import {
   CharacterActionResponse,
   createPlayerCharacterAction,
 } from "@/actions/character/character";
+import { FormStep } from "@/interfaces/components";
+import {
+  createPlayerCharacterSchema,
+  updatePlayerCharacterSchema,
+} from "@/schemas/characters/character";
+import { FormStepsHeader } from "@/components/common/form/FormStepsHeader";
+import { Form } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
 
 interface Props {
   character: PlayerCharacter;
   action: "create" | "update";
 }
 
-const defaultTabs: Tab[] = [
-  { title: "Sobre ti", key: "about", disabled: true, active: true },
-  { title: "Clase y raza", key: "classes", disabled: true },
+const steps: FormStep[] = [
+  {
+    title: "Acerca de",
+    key: "about",
+    fields: ["name", "origin"],
+  },
 ];
 
 export default function PlayerCharacterForm({ character, action }: Props) {
-  const { currentTab, handleTabChange, tabs } = useTab(defaultTabs, {
-    activePrevTabs: true,
-  });
+  const schema =
+    action === "create"
+      ? createPlayerCharacterSchema
+      : updatePlayerCharacterSchema;
 
-  const {
-    currentStep,
-    formData,
-    formErrors,
-    isFirstStep,
-    isLastStep,
-    nextStep,
-    prevStep,
-    updateValue,
-    setErrors,
-  } = useMultiStepForm<PlayerCharacter>(character, tabs.length);
+  const { currentStep, isFirstStep, isLastStep, nextStep, prevStep, form } =
+    useMultiStepForm({
+      initialValues: character,
+      totalSteps: steps.length,
+      schema,
+    });
 
-  const [isLoading, setIsLoading] = useState(false);
+  const handleNextStep = async () => {
+    const fields = steps[currentStep].fields;
 
-  const handleNextStep = () => {
-    const nextTab = tabs[currentStep + 1];
-
-    if (nextTab) {
-      handleTabChange(nextTab);
-    }
-
+    const isValid = await form.trigger(fields, { shouldFocus: true });
+    if (!isValid) return;
     nextStep();
   };
 
-  const handlePrevStep = () => {
-    const prevTab = tabs[currentStep - 1];
+  const handlePrevStep = () => prevStep();
 
-    if (prevTab) {
-      handleTabChange(prevTab);
-    }
-
-    prevStep();
-  };
-
-  const isFormValid = () => {
-    if (currentStep === 0) return isBasicInfoValid();
-
-    return true;
-  };
-
-  const isBasicInfoValid = () => {
-    const firstStepKeys: (keyof PlayerCharacter)[] = ["name", "origin"];
-
-    return firstStepKeys.every((key) => !formErrors[key] && formData[key]);
-  };
-
-  const save = async () => {
-    setIsLoading(true);
-
+  const onSubmit = async (values: PlayerCharacter) => {
     let result: CharacterActionResponse | null = null;
 
     if (action === "create") {
-      result = await createPlayerCharacterAction(formData);
+      result = await createPlayerCharacterAction(values);
     } else {
       // result = await updatePlayerCharacter(supabase, formData);
     }
 
     if (result && !result.success) {
-      setErrors({ general: result.error });
+      form.setError("root.server", {
+        type: "server",
+        message: result.error || "Error al guardar la campaña",
+      });
     }
-
-    setIsLoading(false);
   };
 
   return (
-    <div className={styles.container}>
-      <TabContainer tabs={tabs} onTabChange={handleTabChange}>
-        <div className={styles.form_container}>
-          <div className={styles.form}>
-            {currentTab.key === "about" && (
-              <PlayerCharacterAboutForm
-                character={formData}
-                updateValue={updateValue}
-                formErrors={formErrors}
-              />
-            )}
+    <div className=" max-h-full py-6 px-4 h-full flex flex-col">
+      <FormStepsHeader steps={steps} currentStep={steps[currentStep].key} />
 
-            {currentTab.key === "classes" && (
-              <p className={styles.text}>Configuración de la cuenta</p>
+      <Form {...form}>
+        <form
+          className="flex flex-col gap-6 h-full overflow-hidden max-h-full mt-6"
+          onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="flex flex-col gap-6 h-full flex-1 overflow-y-auto max-h-full px-2">
+            {steps[currentStep].key === "about" && (
+              <PlayerCharacterAboutForm form={form} />
             )}
           </div>
-          {formErrors.general && (
-            <p className={styles.error}>{formErrors.general}</p>
-          )}
-          <div className={styles.buttons}>
-            <button
+          <div className="flex justify-end gap-4 w-full">
+            <Button
+              variant="outline"
               onClick={handlePrevStep}
               disabled={isFirstStep}
-              className={styles.prev_button}>
-              <ArrowLeft02Icon size={20} />
+              className="flex items-center gap-1 text-violet-700 border-0 px-4 py-2 rounded-sm font-semibold text-base disabled:text-gray-400">
+              <ArrowLeft02Icon size={18} />
               Atras
-            </button>
+            </Button>
             {isLastStep ? (
-              <button
-                className={styles.next_button}
-                onClick={save}
-                disabled={isLoading || !isFormValid()}>
-                {isLoading ? "Guardando..." : "Guardar"}
-              </button>
+              <Button
+                className="bg-violet-700 text-white font-semibold px-3 py-2 rounded-sm border-0 text-sm min-w-[100px] disabled:bg-violet-300 hover:bg-violet-900"
+                disabled={form.formState.isSubmitting}
+                type="submit">
+                {form.formState.isSubmitting ? "Guardando..." : "Guardar"}
+              </Button>
             ) : (
               <button
                 onClick={handleNextStep}
-                className={styles.next_button}
-                disabled={!isFormValid()}>
+                className="bg-violet-700 text-white font-semibold px-3 py-2 rounded-sm border-0 text-sm min-w-[100px] disabled:bg-violet-300 hover:bg-violet-900"
+                type="button">
                 Siguiente
               </button>
             )}
+            {form.formState.errors.root?.server && (
+              <p className="text-red-600 text-sm text-center">
+                {form.formState.errors.root.server.message}
+              </p>
+            )}
           </div>
-        </div>
-      </TabContainer>
+        </form>
+      </Form>
     </div>
   );
 }

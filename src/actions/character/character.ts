@@ -3,7 +3,7 @@
 import { createPlayerCharacter } from "@/database/characters/characters";
 import { PlayerCharacter } from "@/interfaces/entity";
 import { validateSchema } from "@/schemas";
-import { createCharacterSchema } from "@/schemas/characters/character";
+import { createPlayerCharacterSchema } from "@/schemas/characters/character";
 import { getSupabaseServerClient } from "@/utils/supabase/serverClient";
 import { redirect } from "next/navigation";
 
@@ -15,7 +15,7 @@ export interface CharacterActionResponse {
 export const createPlayerCharacterAction = async (
   character: PlayerCharacter
 ): Promise<CharacterActionResponse> => {
-  const valResult = validateSchema(character, createCharacterSchema);
+  const valResult = validateSchema(character, createPlayerCharacterSchema);
 
   if (!valResult.success) {
     const error = valResult.error || "Error al validar los datos";

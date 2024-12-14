@@ -120,6 +120,6 @@ export const createDefaultMasterCampaign = (): Campaign => ({
     start_zenit: 500,
     start_fabula_points: 2,
   },
-  max_players: 99,
+  max_players: 10,
   characters: [],
 });

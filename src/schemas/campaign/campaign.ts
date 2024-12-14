@@ -3,13 +3,13 @@ import { z } from "zod";
 export const createCampaignSchema = z.object({
   name: z
     .string()
-    .min(1, { message: "Por favor, escribe el nombre de la campaña." }),
+    .min(1, { message: "El nombre de la campaña no puede estar vacío." }),
   description: z
     .string()
-    .min(1, { message: "Por favor, incluye una descripción para la campaña." }),
+    .min(1, { message: "La campaña debe tener una descripción." }),
   short_description: z
     .string()
-    .min(1, { message: "Incluye una descripción breve para la campaña." }),
+    .min(1, { message: "La campaña debe tener una descripción corta." }),
   access_type: z.enum(["public", "request"], {
     message: "Selecciona un tipo de acceso: público o por solicitud.",
   }),
