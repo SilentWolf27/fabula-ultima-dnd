@@ -1,7 +1,6 @@
 "use client";
 
 import { BasicCampaign } from "@/interfaces/entity";
-import styles from "@/styles/components/dashboard/campaign/MasterCampaignCard.module.css";
 import { useRouter } from "next/navigation";
 
 interface Props {

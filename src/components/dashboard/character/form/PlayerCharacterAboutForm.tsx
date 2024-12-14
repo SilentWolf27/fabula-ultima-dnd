@@ -1,46 +1,55 @@
-import { Input, Select } from "@/components/common/form";
-import { PlayerCharacter } from "@/interfaces/entity";
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { UseFormReturn } from "react-hook-form";
 
 interface Props {
-  character: PlayerCharacter;
-  updateValue: (key: string, value: any, error: string | null) => void;
-  formErrors?: Record<string, string | null>;
+  form: UseFormReturn<any, any, any>;
 }
 
-export default function PlayerCharacterAboutForm({
-  character,
-  updateValue,
-  formErrors = {},
-}: Props) {
+export default function PlayerCharacterAboutForm({ form }: Props) {
   return (
     <>
-      <Input
-        label="Nombre"
+      <FormField
         name="name"
-        value={character.name}
-        onChange={updateValue}
-        placeholder="Ej. Personaje de prueba"
-        required={true}
-        error={formErrors.name}
+        control={form.control}
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Nombre</FormLabel>
+            <FormControl>
+              <Input {...field} placeholder="Ej. Gandalf" autoComplete="off" />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
       />
 
-      <Input
-        label="Origen"
+      <FormField
         name="origin"
-        value={character.origin}
-        onChange={updateValue}
-        placeholder="Ej. El bosque de los elfos"
-        required={true}
-        error={formErrors.origin}
-      />
-
-      <Input
-        label="Trasfondo"
-        name="background"
-        value={character.background}
-        onChange={updateValue}
-        placeholder="Ej. Hijo de un elfo y un humano"
-        type="textarea"
+        control={form.control}
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Origen</FormLabel>
+            <FormControl>
+              <Input
+                {...field}
+                placeholder="Ej. La Comarca"
+                autoComplete="off"
+              />
+            </FormControl>
+            <FormDescription className="text-sm text-balance">
+              El lugar de nacimiento o procedencia del personaje.
+            </FormDescription>
+            <FormMessage />
+          </FormItem>
+        )}
       />
     </>
   );

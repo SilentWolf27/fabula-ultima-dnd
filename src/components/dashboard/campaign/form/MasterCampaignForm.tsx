@@ -57,9 +57,7 @@ export default function MasterCampaignForm({ campaign, action }: Props) {
     nextStep();
   };
 
-  const handlePrevStep = () => {
-    prevStep();
-  };
+  const handlePrevStep = () => prevStep();
 
   const onSubmit = async (values: Campaign) => {
     let result: CampaignActionResponse | null = null;
@@ -76,7 +74,6 @@ export default function MasterCampaignForm({ campaign, action }: Props) {
         message: result.error || "Error al guardar la campaña",
       });
     }
-    console.log(values);
   };
 
   return (
