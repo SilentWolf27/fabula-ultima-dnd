@@ -1,61 +1,117 @@
-import { Input, Select } from "@/components/common/form";
 import {
-  Campaign,
-  campaignAccessTypeOptions,
-  CampaignStatus,
-  campaignStatusOptions,
-} from "@/interfaces/entity";
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { campaignAccessTypeOptions } from "@/interfaces/entity";
+import { UseFormReturn } from "react-hook-form";
 
 interface Props {
-  campaign: Campaign;
-  updateValue: (key: string, value: any, error: string | null) => void;
-  formErrors?: Record<string, string | null>;
+  form: UseFormReturn<any, any, any>;
 }
 
-export default function MasterCampaignBasicInfoForm({
-  campaign,
-  updateValue,
-  formErrors = {},
-}: Props) {
+export default function MasterCampaignBasicInfoForm({ form }: Props) {
   return (
     <>
-      <Input
-        label="Nombre"
+      <FormField
         name="name"
-        value={campaign.name}
-        onChange={updateValue}
-        placeholder="Ej. Campaña de prueba"
-        required={true}
-        error={formErrors.name}
+        control={form.control}
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Nombre</FormLabel>
+            <FormControl>
+              <Input
+                {...field}
+                placeholder="Ej. Campaña de prueba"
+                autoComplete="off"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
       />
 
-      <Select
-        label="Tipo de acceso"
+      <FormField
         name="access_type"
-        value={campaign.access_type}
-        onChange={updateValue}
-        options={campaignAccessTypeOptions}
-        error={formErrors.status}
+        control={form.control}
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Tipo de acceso</FormLabel>
+            <Select onValueChange={field.onChange} value={field.value}>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecciona un tipo de acceso" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                {campaignAccessTypeOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <FormMessage />
+          </FormItem>
+        )}
       />
 
-      <Input
-        label="Descripción"
+      <FormField
+        control={form.control}
         name="description"
-        value={campaign.description}
-        onChange={updateValue}
-        required={true}
-        error={formErrors.description}
-        type="textarea"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Descripción</FormLabel>
+            <FormControl>
+              <Textarea
+                {...field}
+                placeholder="Ingresa una descripción. Puede ser tan larga como desees."
+                className="resize-none min-h-[200px]"
+              />
+            </FormControl>
+            <FormDescription className="text-sm text-balance">
+              Esta descripción se mostrará en el detalle de la campaña. Puedes
+              incluir toda la información que consideres necesaria para que los
+              usuarios puedan entender de qué se trata la campaña.
+            </FormDescription>
+            <FormMessage />
+          </FormItem>
+        )}
       />
 
-      <Input
-        label="Descripción corta"
+      <FormField
+        control={form.control}
         name="short_description"
-        value={campaign.short_description}
-        onChange={updateValue}
-        required={true}
-        error={formErrors.short_description}
-        type="textarea"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Descripción corta</FormLabel>
+            <FormControl>
+              <Textarea
+                {...field}
+                placeholder="Ingresa una descripción breve."
+                className="resize-none min-h-[100px]"
+              />
+            </FormControl>
+            <FormDescription className="text-sm text-balance">
+              Esta descripción se mostrará en elementos más pequeños, como
+              tarjetas o listados. Debe ser breve y concisa para que los
+              usuarios puedan entender rápidamente de qué se trata la campaña.
+            </FormDescription>
+            <FormMessage />
+          </FormItem>
+        )}
       />
     </>
   );

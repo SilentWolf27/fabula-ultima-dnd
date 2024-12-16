@@ -1,9 +1,11 @@
-import { HugeiconsProps } from "hugeicons-react";
-import { FC } from "react";
+import { LucideProps } from "lucide-react";
+import { FC, ForwardRefExoticComponent, RefAttributes } from "react";
 
 export interface NavBarItem {
   label: string;
   path: string;
-  icon?: FC<Omit<HugeiconsProps, "ref">>;
+  icon?: ForwardRefExoticComponent<
+    Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
+  >;
   role: "dm" | "player" | "both";
 }

@@ -1,60 +1,108 @@
-import { Input } from "@/components/common/form";
-import { Campaign } from "@/interfaces/entity";
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { UseFormReturn } from "react-hook-form";
 
 interface Props {
-  campaign: Campaign;
-  updateValue: (key: string, value: any, error: string | null) => void;
-  formErrors?: Record<string, string | null>;
+  form: UseFormReturn<any, any, any>;
 }
 
-export const MasterCampaignSettingsForm = ({
-  campaign,
-  updateValue,
-  formErrors = {},
-}: Props) => {
-  const settings = campaign.settings;
+export const MasterCampaignSettingsForm = ({ form }: Props) => {
   return (
     <>
-      <Input
-        label="Nivel inicial"
+      <FormField
         name="settings.start_level"
-        value={settings.start_level ? `${settings.start_level}` : ""}
-        onChange={updateValue}
-        placeholder="Ej. 5"
-        error={formErrors.start_level}
-        type="number"
+        control={form.control}
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Nivel inicial</FormLabel>
+            <FormControl>
+              <Input
+                {...field}
+                placeholder="Ej. 1"
+                autoComplete="off"
+                type="number"
+              />
+            </FormControl>
+            <FormDescription className="text-sm text-balance">
+              El nivel con el que los jugadores comenzarán la campaña.
+            </FormDescription>
+            <FormMessage />
+          </FormItem>
+        )}
       />
 
-      <Input
-        label="Nivel máximo"
+      <FormField
         name="settings.max_level"
-        value={settings.max_level ? `${settings.max_level}` : ""}
-        onChange={updateValue}
-        placeholder="Ej. 20"
-        error={formErrors.max_level}
-        type="number"
+        control={form.control}
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Nivel máximo</FormLabel>
+            <FormControl>
+              <Input
+                {...field}
+                placeholder="Ej. 20"
+                autoComplete="off"
+                type="number"
+              />
+            </FormControl>
+            <FormDescription className="text-sm text-balance">
+              El nivel máximo al que los jugadores pueden llegar.
+            </FormDescription>
+            <FormMessage />
+          </FormItem>
+        )}
       />
 
-      <Input
-        label="Zenit inicial"
+      <FormField
         name="settings.start_zenit"
-        value={settings.start_zenit ? `${settings.start_zenit}` : ""}
-        onChange={updateValue}
-        placeholder="Ej. 1000"
-        error={formErrors.start_zenit}
-        type="number"
+        control={form.control}
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Zenit inicial</FormLabel>
+            <FormControl>
+              <Input
+                {...field}
+                placeholder="Ej. 1000"
+                autoComplete="off"
+                type="number"
+              />
+            </FormControl>
+            <FormDescription className="text-sm text-balance">
+              La cantidad de Zenit con la que los jugadores comenzarán.
+            </FormDescription>
+            <FormMessage />
+          </FormItem>
+        )}
       />
 
-      <Input
-        label="Puntos de Fábula iniciales"
+      <FormField
         name="settings.start_fabula_points"
-        value={
-          settings.start_fabula_points ? `${settings.start_fabula_points}` : ""
-        }
-        onChange={updateValue}
-        placeholder="Ej. 2"
-        error={formErrors.start_fabula_points}
-        type="number"
+        control={form.control}
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Puntos de Fábula iniciales</FormLabel>
+            <FormControl>
+              <Input
+                {...field}
+                placeholder="Ej. 2"
+                autoComplete="off"
+                type="number"
+              />
+            </FormControl>
+            <FormDescription className="text-sm text-balance">
+              La cantidad de Puntos de Fábula con la que los jugadores
+              comenzarán.
+            </FormDescription>
+            <FormMessage />
+          </FormItem>
+        )}
       />
     </>
   );

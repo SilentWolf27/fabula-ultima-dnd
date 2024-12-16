@@ -1,74 +1,107 @@
 "use client";
 
-import { loginAction, LoginState } from "@/actions/auth/auth";
-import { useActionState, useState } from "react";
-import { ViewIcon, ViewOffSlashIcon } from "hugeicons-react";
-import styles from "@/styles/components/auth/LoginForm.module.css";
-
-const initialFormState = {
-  message: null,
-  email: "",
-  password: "",
-};
+import { loginAction } from "@/actions/auth/auth";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema } from "@/schemas/auth/auth";
+import { z } from "zod";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  Form,
+  FormMessage,
+} from "../ui/form";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 
 export const LoginForm = () => {
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const [formState, formAction, isFormPending] = useActionState<
-    LoginState,
-    FormData
-  >(loginAction, initialFormState);
+  const form = useForm<z.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
+  const onSubmit = async (data: z.infer<typeof loginSchema>) => {
+    const { error } = await loginAction(data);
+
+    if (error) {
+      form.setError("root.server", {
+        type: "server",
+        message: error.message,
+      });
+    }
+  };
+
+  const errors = form.formState.errors;
   return (
-    <form action={formAction} className={styles.form}>
-      <div className={styles.input_container}>
-        <label htmlFor="email" className={styles.label}>
-          Email
-        </label>
-        <input
-          type="text"
-          id="email"
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="mt-8 flex flex-col gap-5">
+        <FormField
+          control={form.control}
           name="email"
-          className={styles.input}
-          placeholder="username@fabula.com"
-          defaultValue={formState.email}
-          autoComplete="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Correo electrónico</FormLabel>
+              <FormControl>
+                <Input placeholder="Ej. username@fabula.com" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
 
-      <div className={styles.input_container}>
-        <label htmlFor="password" className={styles.label}>
-          Contraseña
-        </label>
-        <div className={styles.password_container}>
-          <input
-            type={showPassword ? "text" : "password"}
-            id="password"
-            name="password"
-            className={styles.input}
-            placeholder={showPassword ? "Contraseña" : "*********"}
-            defaultValue={formState.password}
-            autoComplete="current-password"
-          />
-          <button
-            type="button"
-            className={styles.eye_button}
-            onClick={() => setShowPassword(!showPassword)}>
-            {showPassword ? <ViewOffSlashIcon /> : <ViewIcon />}
-          </button>
-        </div>
-      </div>
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Contraseña</FormLabel>
+              <FormControl>
+                <div className="relative">
+                  <Input
+                    placeholder="********"
+                    {...field}
+                    type={showPassword ? "text" : "password"}
+                    className="w-full outline-violet-700"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-2 top-2 text-violet-700 outline-none border-none">
+                    {showPassword ? <Eye size={24} /> : <EyeOff size={24} />}
+                  </button>
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-      <button
-        type="submit"
-        className={styles.submit_button}
-        disabled={isFormPending}>
-        {isFormPending ? "Iniciando sesión..." : "Iniciar sesión"}
-      </button>
+        <Button
+          className="bg-violet-700 text-base hover:bg-violet-900 disabled:bg-violet-500"
+          type="submit"
+          disabled={form.formState.isSubmitting}>
+          {form.formState.isSubmitting
+            ? "Iniciando sesión..."
+            : "Iniciar sesión"}
+        </Button>
 
-      {formState.message && (
-        <p className={styles.error_message}>{formState.message}</p>
-      )}
-    </form>
+        {errors.root?.server && (
+          <p className="text-red-600 text-sm text-center">
+            {errors.root.server.message}
+          </p>
+        )}
+      </form>
+    </Form>
   );
 };

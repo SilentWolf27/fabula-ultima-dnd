@@ -1,44 +1,38 @@
 import { NavBarItem } from "@/interfaces/components/common/Nav";
 import { getSupabaseJwtPayload } from "@/utils/session/session";
 import { getSupabaseClient } from "@/utils/supabase/browserClient";
-
-import {
-  Book04Icon,
-  Home05Icon,
-  UserFullViewIcon,
-  UserSettings01Icon,
-} from "hugeicons-react";
+import { House, NotebookPen, UserCog, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const defaultItems: NavBarItem[] = [
   {
     label: "Inicio",
     path: "/dashboard",
-    icon: Home05Icon,
+    icon: House,
     role: "both",
   },
   {
     label: "Personajes",
     path: "/dashboard/personajes",
-    icon: UserFullViewIcon,
+    icon: Users,
     role: "player",
   },
   {
     label: "Mis Historias",
     path: "/dashboard/mishistorias",
-    icon: Book04Icon,
+    icon: NotebookPen,
     role: "dm",
   },
   {
     label: "Historias",
     path: "/dashboard/historias",
-    icon: Book04Icon,
+    icon: NotebookPen,
     role: "player",
   },
   {
     label: "Perfil",
     path: "/dashboard/perfil",
-    icon: UserSettings01Icon,
+    icon: UserCog,
     role: "both",
   },
 ];

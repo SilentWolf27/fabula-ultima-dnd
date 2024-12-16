@@ -1,46 +1,81 @@
-import { Input, Select } from "@/components/common/form";
-import { PlayerCharacter } from "@/interfaces/entity";
+import { MultiSelect } from "@/components/common/Multiselect/Multiselect";
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { fabulaUltimaRaces } from "@/database/characters/races";
+import { UseFormReturn } from "react-hook-form";
 
 interface Props {
-  character: PlayerCharacter;
-  updateValue: (key: string, value: any, error: string | null) => void;
-  formErrors?: Record<string, string | null>;
+  form: UseFormReturn<any, any, any>;
 }
 
-export default function PlayerCharacterAboutForm({
-  character,
-  updateValue,
-  formErrors = {},
-}: Props) {
+export default function PlayerCharacterAboutForm({ form }: Props) {
   return (
     <>
-      <Input
-        label="Nombre"
+      <FormField
         name="name"
-        value={character.name}
-        onChange={updateValue}
-        placeholder="Ej. Personaje de prueba"
-        required={true}
-        error={formErrors.name}
+        control={form.control}
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Nombre</FormLabel>
+            <FormControl>
+              <Input {...field} placeholder="Ej. Gandalf" autoComplete="off" />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
       />
 
-      <Input
-        label="Origen"
+      <FormField
         name="origin"
-        value={character.origin}
-        onChange={updateValue}
-        placeholder="Ej. El bosque de los elfos"
-        required={true}
-        error={formErrors.origin}
+        control={form.control}
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Origen</FormLabel>
+            <FormControl>
+              <Input
+                {...field}
+                placeholder="Ej. La Comarca"
+                autoComplete="off"
+              />
+            </FormControl>
+            <FormDescription className="text-sm text-balance">
+              El lugar de nacimiento o procedencia del personaje.
+            </FormDescription>
+            <FormMessage />
+          </FormItem>
+        )}
       />
 
-      <Input
-        label="Trasfondo"
-        name="background"
-        value={character.background}
-        onChange={updateValue}
-        placeholder="Ej. Hijo de un elfo y un humano"
-        type="textarea"
+      <FormField
+        name="races"
+        control={form.control}
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Razas</FormLabel>
+            <FormControl>
+              <MultiSelect
+                options={fabulaUltimaRaces}
+                onValueChange={(values: string[]) => {
+                  form.setValue("races", values);
+                }}
+                placeholder="Selecciona la(s) raza(s) del personaje"
+                maxItems={2}
+                values={field.value}
+              />
+            </FormControl>
+            <FormDescription className="text-sm text-balance">
+              Selecciona hasta dos razas para tu personaje.
+            </FormDescription>
+            <FormMessage />
+          </FormItem>
+        )}
       />
     </>
   );

@@ -4,45 +4,22 @@ import { loginSchema } from "@/schemas/auth/auth";
 import { getSupabaseServerClient } from "@/utils/supabase/serverClient";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { validateSchema } from "@/schemas";
-
-export interface LoginState {
-  message: string | null;
-  email?: string;
-  password?: string;
-}
-
-export interface SignOutState {
-  message: string | null;
-}
+import { z } from "zod";
+import { FabulaError, FabulaServerErrorBuilder } from "@/utils/errors/errors";
 
 export async function loginAction(
-  state: LoginState,
-  form: FormData
-): Promise<LoginState> {
+  loginData: z.infer<typeof loginSchema>
+): Promise<{ error: FabulaError | null }> {
   const client = await getSupabaseServerClient();
-
-  const email = form.get("email") as string;
-  const password = form.get("password") as string;
-
-  const loginData = { email, password };
-
-  const valResult = validateSchema(loginData, loginSchema);
-
-  if (!valResult.success) {
-    return {
-      ...loginData,
-      message: valResult.error,
-    };
-  }
 
   const { error } = await client.auth.signInWithPassword(loginData);
 
   if (error) {
-    console.error("Error logging in:", error);
+    console.error(error);
     return {
-      ...loginData,
-      message: "Usuario o contraseña incorrectos",
+      error: FabulaServerErrorBuilder.Unauthorized(
+        "Usuario o contraseña incorrectos"
+      ),
     };
   }
 
@@ -50,18 +27,15 @@ export async function loginAction(
   redirect("/dashboard");
 }
 
-export async function signOutAction(
-  state: SignOutState
-): Promise<SignOutState> {
+export async function signOutAction(): Promise<string | null> {
   const client = await getSupabaseServerClient();
   const { error } = await client.auth.signOut({ scope: "local" });
 
   if (error) {
-    console.error("Error logging out:", error);
-    return {
-      message: "Error cerrando sesión",
-    };
+    console.error(error);
+    return "Error al cerrar sesión";
   }
+
   revalidatePath("/", "layout");
   redirect("/login");
 }

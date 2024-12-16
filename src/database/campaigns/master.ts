@@ -61,7 +61,7 @@ export const getMasterCampaignDetail = async (
 
 export const createMasterCampaign = async (
   supabase: SupabaseClient,
-  campaign: Campaign
+  campaign: Partial<Campaign>
 ): Promise<Campaign> => {
   const newCampaign = JSON.parse(JSON.stringify(campaign));
 
@@ -114,7 +114,12 @@ export const createDefaultMasterCampaign = (): Campaign => ({
   short_description: "",
   status: CampaignStatus.HIDDEN,
   access_type: CampaignAccessType.PUBLIC,
-  settings: {},
-  max_players: 99,
+  settings: {
+    start_level: 1,
+    max_level: 99,
+    start_zenit: 500,
+    start_fabula_points: 2,
+  },
+  max_players: 10,
   characters: [],
 });
