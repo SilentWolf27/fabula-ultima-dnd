@@ -9,7 +9,7 @@ export default function DashboardLayout({
   return (
     <div className="grid grid-cols-1 grid-rows-dashboard-mobile min-h-dvh">
       <Header />
-      <main className=" h-full max-h-[calc(100dvh-13  0px)] overflow-hidden">{children}</main>
+      <main className=" h-full max-h-[calc(100dvh-130px)] overflow-hidden">{children}</main>
       <NavBar />
     </div>
   );
