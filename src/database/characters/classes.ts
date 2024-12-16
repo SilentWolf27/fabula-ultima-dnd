@@ -7,9 +7,10 @@ export async function getCharacterClasses(
   const { data, error } = await supabase
     .from("character_classes")
     .select(
-      `id, name, description, benefits_description, benefits, alias, image`
+      `id, identifier, name, description, benefits_description, benefits, alias, image`
     )
-    .eq("is_active", true);
+    .eq("is_active", true)
+    .order("name", { ascending: true });
 
   if (error) {
     throw error;

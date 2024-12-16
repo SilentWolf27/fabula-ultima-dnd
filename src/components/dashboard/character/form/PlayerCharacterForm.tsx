@@ -16,10 +16,14 @@ import { FormStepsHeader } from "@/components/common/form/FormStepsHeader";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
+import { PlayerCharacterClassesForm } from "./PlayerCharacterClassesForm";
+import { CharacterClass } from "@/interfaces/entity/character_classes";
 
 interface Props {
   character: PlayerCharacter;
   action: "create" | "update";
+  characterClassesOptions: { label: string; value: string }[];
+  characterClasses: CharacterClass[];
 }
 
 const steps: FormStep[] = [
@@ -35,7 +39,12 @@ const steps: FormStep[] = [
   },
 ];
 
-export default function PlayerCharacterForm({ character, action }: Props) {
+export default function PlayerCharacterForm({
+  character,
+  action,
+  characterClasses,
+  characterClassesOptions,
+}: Props) {
   const schema =
     action === "create"
       ? createPlayerCharacterSchema
@@ -86,6 +95,13 @@ export default function PlayerCharacterForm({ character, action }: Props) {
           <div className="flex flex-col gap-6 h-full flex-1 overflow-y-auto max-h-full px-2">
             {steps[currentStep].key === "about" && (
               <PlayerCharacterAboutForm form={form} />
+            )}
+            {steps[currentStep].key === "classes" && (
+              <PlayerCharacterClassesForm
+                form={form}
+                classes={characterClasses}
+                classesOptions={characterClassesOptions}
+              />
             )}
           </div>
           <div className="flex justify-end gap-4 w-full">
