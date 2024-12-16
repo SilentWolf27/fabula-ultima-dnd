@@ -1,3 +1,4 @@
+import { MultiSelect } from "@/components/common/Multiselect/Multiselect";
 import {
   FormControl,
   FormDescription,
@@ -7,7 +8,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { fabulaUltimaRaces } from "@/database/characters/races";
 import { UseFormReturn } from "react-hook-form";
 
 interface Props {
@@ -46,6 +47,31 @@ export default function PlayerCharacterAboutForm({ form }: Props) {
             </FormControl>
             <FormDescription className="text-sm text-balance">
               El lugar de nacimiento o procedencia del personaje.
+            </FormDescription>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        name="races"
+        control={form.control}
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Razas</FormLabel>
+            <FormControl>
+              <MultiSelect
+                options={fabulaUltimaRaces}
+                onValueChange={(values: string[]) => {
+                  form.setValue("races", values);
+                }}
+                placeholder="Selecciona la(s) raza(s) del personaje"
+                maxItems={2}
+                values={field.value}
+              />
+            </FormControl>
+            <FormDescription className="text-sm text-balance">
+              Selecciona hasta dos razas para tu personaje.
             </FormDescription>
             <FormMessage />
           </FormItem>

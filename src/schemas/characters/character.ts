@@ -14,6 +14,11 @@ export const createPlayerCharacterSchema = z.object({
       message: "Selecciona al menos una clase para el personaje.",
     })
     .min(1, { message: "El personaje debe tener al menos una clase." }),
+
+  races: z
+    .array(z.string())
+    .min(1, { message: "El personaje debe tener al menos una raza." })
+    .max(2, { message: "El personaje no puede tener más de dos razas." }),
 });
 
 export const updatePlayerCharacterSchema = createPlayerCharacterSchema.extend({
