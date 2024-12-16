@@ -2,7 +2,7 @@ import { SignOutButton } from "@/components/auth/SignOutButton";
 import { ProfileAvatar } from "@/components/dashboard/profile/ProfileAvatar";
 import { getProfile } from "@/database/account/profile";
 import { getSupabaseServerClient } from "@/utils/supabase/serverClient";
-import { ArrowRight01Icon } from "hugeicons-react";
+import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 
 export default async function Profile() {
@@ -20,7 +20,7 @@ export default async function Profile() {
             href="perfil/editar"
             className="decoration-0 text-gray-800 py-2 px-4 text-base flex justify-between items-center">
             Editar perfil
-            <ArrowRight01Icon size={24} />
+            <ChevronRight size={24} />
           </Link>
         </section>
         <section className="bg-white p-2 rounded-sm">

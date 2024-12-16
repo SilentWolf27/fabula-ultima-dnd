@@ -1,7 +1,6 @@
 "use client";
 
 import { loginAction } from "@/actions/auth/auth";
-import { ViewIcon, ViewOffSlashIcon } from "hugeicons-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/schemas/auth/auth";
@@ -17,6 +16,7 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -78,11 +78,7 @@ export const LoginForm = () => {
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-2 top-2 text-violet-700 outline-none border-none">
-                    {showPassword ? (
-                      <ViewOffSlashIcon size={24} />
-                    ) : (
-                      <ViewIcon size={24} />
-                    )}
+                    {showPassword ? <Eye size={24} /> : <EyeOff size={24} />}
                   </button>
                 </div>
               </FormControl>
@@ -100,7 +96,11 @@ export const LoginForm = () => {
             : "Iniciar sesión"}
         </Button>
 
-        {errors.root?.server && <p className="text-red-600 text-sm text-center">{errors.root.server.message}</p>}
+        {errors.root?.server && (
+          <p className="text-red-600 text-sm text-center">
+            {errors.root.server.message}
+          </p>
+        )}
       </form>
     </Form>
   );

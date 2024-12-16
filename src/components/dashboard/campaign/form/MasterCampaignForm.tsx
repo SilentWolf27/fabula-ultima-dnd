@@ -1,6 +1,5 @@
 "use client";
 
-import { ArrowLeft02Icon } from "hugeicons-react";
 import { Campaign } from "@/interfaces/entity";
 import { MasterCampaignSettingsForm } from "./MasterCampaignSettingsForm";
 import { FormStep } from "@/interfaces/components";
@@ -18,6 +17,7 @@ import {
   updateCampaignSchema,
 } from "@/schemas/campaign/campaign";
 import { Button } from "@/components/ui/button";
+import { ChevronLeft } from "lucide-react";
 
 interface Props {
   campaign: Campaign;
@@ -99,7 +99,7 @@ export default function MasterCampaignForm({ campaign, action }: Props) {
               onClick={handlePrevStep}
               disabled={isFirstStep}
               className="flex items-center gap-1 text-violet-700 border-0 px-4 py-2 rounded-sm font-semibold text-base disabled:text-gray-400">
-              <ArrowLeft02Icon size={18} />
+              <ChevronLeft size={16} />
               Atras
             </Button>
             {isLastStep ? (

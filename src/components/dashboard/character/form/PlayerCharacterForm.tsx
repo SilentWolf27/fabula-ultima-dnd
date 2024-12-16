@@ -1,6 +1,5 @@
 "use client";
 
-import { ArrowLeft02Icon } from "hugeicons-react";
 import { PlayerCharacter } from "@/interfaces/entity";
 import { useMultiStepForm } from "@/hooks";
 import PlayerCharacterAboutForm from "./PlayerCharacterAboutForm";
@@ -16,6 +15,7 @@ import {
 import { FormStepsHeader } from "@/components/common/form/FormStepsHeader";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
+import { ChevronLeft } from "lucide-react";
 
 interface Props {
   character: PlayerCharacter;
@@ -89,7 +89,7 @@ export default function PlayerCharacterForm({ character, action }: Props) {
               onClick={handlePrevStep}
               disabled={isFirstStep}
               className="flex items-center gap-1 text-violet-700 border-0 px-4 py-2 rounded-sm font-semibold text-base disabled:text-gray-400">
-              <ArrowLeft02Icon size={18} />
+              <ChevronLeft size={16} />
               Atras
             </Button>
             {isLastStep ? (
