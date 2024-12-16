@@ -26,7 +26,12 @@ const steps: FormStep[] = [
   {
     title: "Acerca de",
     key: "about",
-    fields: ["name", "origin"],
+    fields: ["name", "origin", "races"],
+  },
+  {
+    title: "Clases",
+    key: "classes",
+    fields: ["classes"],
   },
 ];
 
