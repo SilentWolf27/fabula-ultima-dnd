@@ -6,6 +6,7 @@ import PlayerCharacterAboutForm from "./PlayerCharacterAboutForm";
 import {
   CharacterActionResponse,
   createPlayerCharacterAction,
+  updatePlayerCharacterAction,
 } from "@/actions/character/character";
 import { FormStep } from "@/interfaces/components";
 import {
@@ -73,7 +74,7 @@ export default function PlayerCharacterForm({
     if (action === "create") {
       result = await createPlayerCharacterAction(values);
     } else {
-      // result = await updatePlayerCharacter(supabase, formData);
+      result = await updatePlayerCharacterAction(values);
     }
 
     if (result && !result.success) {

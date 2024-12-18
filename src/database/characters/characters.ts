@@ -10,6 +10,23 @@ export const getPlayerCharacters = async (supabase: SupabaseClient) => {
   return data;
 };
 
+export const getPlayerCharacter = async (
+  supabase: SupabaseClient,
+  id: string
+): Promise<PlayerCharacter> => {
+  const { data, error } = await supabase
+    .from("characters")
+    .select()
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
+};
+
 export const createDefaultCharacter = (): PlayerCharacter => {
   return {
     name: "",
@@ -29,6 +46,27 @@ export const createPlayerCharacter = async (
   const { data, error } = await supabase
     .from("characters")
     .insert(character)
+    .select()
+    .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error(error.message);
+  }
+
+  return data;
+};
+
+export const updatePlayerCharacter = async (
+  supabase: SupabaseClient,
+  character: PlayerCharacter
+): Promise<PlayerCharacter> => {
+  if (!character.id) throw new Error("El personaje no tiene un id");
+
+  const { data, error } = await supabase
+    .from("characters")
+    .update(character)
+    .eq("id", character.id)
     .select()
     .single();
 

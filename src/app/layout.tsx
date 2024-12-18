@@ -28,8 +28,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={`${lora.variable} ${metamorphous.variable}`}>
-      <body>{children}</body>
+    <html lang="es" className={`${metamorphous.variable} ${lora.variable}`}>
+      <body className="font-lora">{children}</body>
     </html>
   );
 }

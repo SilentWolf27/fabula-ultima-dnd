@@ -1,3 +1,4 @@
+import { PlayerCharacterCard } from "@/components/dashboard/character/PlayerCharacterCard";
 import { getPlayerCharacters } from "@/database/characters/characters";
 import { getSupabaseServerClient } from "@/utils/supabase/serverClient";
 import Link from "next/link";
@@ -20,7 +21,7 @@ export default async function CharactersPage() {
       {characters.length > 0 ? (
         <div className="grid grid-cols-item-list gap-3 overflow-y-auto max-h-full">
           {characters.map((character) => (
-            <div>{character.name}</div>
+            <PlayerCharacterCard key={character.id} character={character} />
           ))}
         </div>
       ) : (

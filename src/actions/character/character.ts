@@ -1,6 +1,9 @@
 "use server";
 
-import { createPlayerCharacter } from "@/database/characters/characters";
+import {
+  createPlayerCharacter,
+  updatePlayerCharacter,
+} from "@/database/characters/characters";
 import { PlayerCharacter } from "@/interfaces/entity";
 import { validateSchema } from "@/schemas";
 import { createPlayerCharacterSchema } from "@/schemas/characters/character";
@@ -29,6 +32,28 @@ export const createPlayerCharacterAction = async (
   } catch (error) {
     console.error(error);
     return { success: false, error: "Error al crear el personaje" };
+  }
+
+  redirect("/dashboard/personajes");
+};
+
+export const updatePlayerCharacterAction = async (
+  character: PlayerCharacter
+): Promise<CharacterActionResponse> => {
+  const valResult = validateSchema(character, createPlayerCharacterSchema);
+
+  if (!valResult.success) {
+    const error = valResult.error || "Error al validar los datos";
+    return { success: false, error };
+  }
+
+  const supabase = await getSupabaseServerClient();
+
+  try {
+    await updatePlayerCharacter(supabase, character);
+  } catch (error) {
+    console.error(error);
+    return { success: false, error: "Error al actualizar el personaje" };
   }
 
   redirect("/dashboard/personajes");
